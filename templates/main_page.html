@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block content %}
+  <div class="content-wrapper">
+    <div class="left-column">  <!-- Ліва частина: фільми -->
+
+
+      <!-- Секція "Зараз у кіно" -->
+      <section class="movies-section">
+        <div class="section-header">
+          <h2>⚬ Зараз у кіно</h2>
+          <a href="#" class="see-more">Більше...</a>
+        </div>
+
+        <div id="now-playing" class="movie-grid"></div>
+
+        <div class="pagination">
+            <button id="prev-now" disabled><i class="fa-solid fa-less-than"></i></button>
+            <span id="page-info-now">1 / ?</span>
+            <button id="next-now"><i class="fa-solid fa-greater-than"></i></button>
+        </div>
+      </section>
+
+      <!-- Секція "Скоро у кіно" -->
+      <section class="movies-section">
+        <div class="section-header">
+          <h2>⚬ Скоро у кіно</h2>
+          <a href="#" class="see-more">Більше...</a>
+        </div>
+
+        <div id="coming-soon" class="movie-grid"></div>
+
+        <div class="pagination">
+            <button id="prev-soon" disabled><i class="fa-solid fa-less-than"></i></button>
+            <span id="page-info-soon">1 / ?</span>
+            <button id="next-soon"><i class="fa-solid fa-greater-than"></i></button>
+        </div>
+      </section>
+    </div>
+
+    <!-- Права частина: рекомендації -->
+    <aside class="right-column">
+
+      <div class="search-bar">
+        <input type="text" placeholder=" Пошук фільму..." id="search-input">
+      </div>
+
+      <div class="recommendation-panel">
+        <h3>Що подивитись сьогодні?</h3>
+        <p>Не знаєте що подивитись із друзями або родиною в кіно? Натисніть на кнопку <b>“рандомайзер”</b> та отримаєте випадковий фільм або мультфільм.</p>
+
+        <form id="recommend-form" method="post">
+            {% csrf_token %}
+            <div class="filters">
+              <label><input type="checkbox" name="type" value="animation"> Тільки мультфільми</label>
+              <label><input type="checkbox" name="rating" value="18+">До 18+</label>
+              <label><input type="checkbox" name="family" value="family">До 16+</label>
+            </div>
+            <button type="submit" class="btn-primary">Рандомайзер</button>
+        </form>
+
+        <div id="recommend-modal" style="display:none;">
+            <div id="recommend-content"></div>
+            <button onclick="closeModal()">Закрити</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+<script src="{% static 'js/recommend.js' %}"></script>
+<script src="{% static 'js/stepper.js' %}"></script>
+{% endblock %}
