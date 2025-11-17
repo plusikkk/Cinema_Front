@@ -1,16 +1,12 @@
 {% extends "layout.html" %}
-{% load static %}
+{% load static %} {% block content %}
+  <link rel="stylesheet" href="{% static 'css/main_page.css' %}">
 
-{% block content %}
   <div class="content-wrapper">
-    <div class="left-column">  <!-- Ліва частина: фільми -->
-
-
-      <!-- Секція "Зараз у кіно" -->
-      <section class="movies-section">
+    <div class="left-column">  <section class="movies-section">
         <div class="section-header">
           <h2>⚬ Зараз у кіно</h2>
-          <a href="#" class="see-more">Більше...</a>
+          <a href="{% url 'movies_now_playing' %}" class="see-more">Більше...</a>
         </div>
 
         <div id="now-playing" class="movie-grid"></div>
@@ -22,11 +18,10 @@
         </div>
       </section>
 
-      <!-- Секція "Скоро у кіно" -->
       <section class="movies-section">
         <div class="section-header">
           <h2>⚬ Скоро у кіно</h2>
-          <a href="#" class="see-more">Більше...</a>
+          <a href="{% url 'movies_coming_soon' %}" class="see-more">Більше...</a>
         </div>
 
         <div id="coming-soon" class="movie-grid"></div>
@@ -39,7 +34,6 @@
       </section>
     </div>
 
-    <!-- Права частина: рекомендації -->
     <aside class="right-column">
 
       <div class="search-bar">
@@ -67,6 +61,6 @@
       </div>
     </aside>
   </div>
-<script src="{% static 'js/recommend.js' %}"></script>
-<script src="{% static 'js/stepper.js' %}"></script>
-{% endblock %}
+
+  <script src="{% static 'js/recommend.js' %}"></script>
+<script src="{% static 'js/API.js' %}"></script> {% endblock %}

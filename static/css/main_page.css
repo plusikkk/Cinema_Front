@@ -2,7 +2,10 @@
 .movies-section {
   margin-top: 60px;
   padding-bottom: 60px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.movies-section + .movies-section {
+  margin-top: -50px !important;
 }
 
 .section-header {
@@ -17,29 +20,45 @@
   font-weight: 700;
   color: var(--accent);
   letter-spacing: 0.03em;
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.section-header h2::after {
+  content: '';
+  flex-grow: 1;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.1);
+  margin-left: 20px;
 }
 
 .section-header .see-more {
   color: var(--pink);
   text-decoration: none;
   font-weight: 600;
-  transition: color 0.25s ease;
+  margin-left: 20px;
+  border: 1px solid var(--pink);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  transition: color 0.25s ease, background-color 0.25s ease;
 }
 
 .section-header .see-more:hover {
-  color: #ff7ebc;
+  color: #fff;
+  background-color: var(--pink);
 }
 
 /* ======== Сітка фільмів ======== */
 .movie-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, 269px);
   gap: 28px;
 }
 
 /* ======== Карточка фільму ======== */
 .movie-card {
-  background: var(--panel);
   border-radius: var(--round);
   overflow: hidden;
   position: relative;
@@ -54,7 +73,7 @@
 
 .movie-card img {
   width: 100%;
-  height: 260px;
+    aspect-ratio: 2 / 3;
   object-fit: cover;
   display: block;
   transition: opacity 0.3s ease;
@@ -62,10 +81,17 @@
 
 /* ======== Текст під постером ======== */
 .movie-title {
-  margin: 12px 14px;
-  font-size: 1rem;
-  text-align: center;
-  font-weight: 600;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0) 100%);
+
+    padding: 16px 14px 16px 14px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    text-align: center;
+    font-weight: 600;
 }
 
 .movie-title a {
@@ -75,7 +101,8 @@
 }
 
 .movie-title a:hover {
-  color: var(--pink);
+    color: var(--pink);
+    text-decoration: none;
 }
 
 /* ======== Ефект при наведенні ======== */
@@ -92,6 +119,10 @@
 
 .movie-card:hover .movie-overlay {
   opacity: 1;
+}
+
+.movie-card a {
+  text-decoration: none;
 }
 
 .btn-view {
@@ -318,7 +349,7 @@
 .left-column {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 10px;
   margin-top: -50px;
 }
 
@@ -329,7 +360,7 @@
   gap: 12px;
   position: sticky;
   top: 100px;
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 .left-column,
@@ -379,4 +410,112 @@
     position: static;
   }
 }
+
+
+/* ======== Оверлей фільму ======== */
+.movie-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 16px;
+  background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.6) 70%, rgba(0,0,0,0.95) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  box-sizing: border-box;
+}
+
+/* Кнопки "Детальніше" і "Трейлер" */
+.overlay-top-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.overlay-button {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 6px 6px;
+  border-radius: 8px;
+  transition: background-color 0.25s ease;
+}
+
+.overlay-button:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+.overlay-button i {
+  margin-right: 8px;
+}
+
+/* Середній контент */
+.overlay-middle-content {
+  text-align: center;
+  color: #fff;
+}
+
+.premiere-text {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+.premiere-date {
+  color: var(--pink);
+  text-transform: uppercase;
+}
+
+.tickets-text {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-top: 5px;
+    color: #fff;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+.presale-badge {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #fdd835;
+  color: #333;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Нижній заголовок */
+.overlay-bottom-title {
+  color: white;
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.overlay-bottom-title a {
+  color: #FFFFFF;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.overlay-bottom-title a:hover {
+  color: var(--pink);
+}
+
+.movie-card:hover .movie-title {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
 
