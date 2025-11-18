@@ -36,6 +36,7 @@ function createMovieCard(movie, cardType) {
   return `
     <div class="movie-card">
         <img src="${movie.poster_url}" alt="${title}">
+        <div class="quality-badge">IMAX</div>
         
         <div class="movie-title">
             <a href="${detailUrl}">${title}</a>

@@ -1,6 +1,9 @@
 {% extends "layout.html" %}
-{% load static %} {% block content %}
-  <link rel="stylesheet" href="{% static 'css/main_page.css' %}">
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/main_page.css' %}">
+<link rel="stylesheet" href="{% static 'css/search.css' %}">
 
   <div class="content-wrapper">
     <div class="left-column">  <section class="movies-section">
@@ -38,6 +41,7 @@
 
       <div class="search-bar">
         <input type="text" placeholder=" Пошук фільму..." id="search-input">
+          <div id="search-results" class="search-results-container"></div>
       </div>
 
       <div class="recommendation-panel">
@@ -62,5 +66,7 @@
     </aside>
   </div>
 
-  <script src="{% static 'js/recommend.js' %}"></script>
-<script src="{% static 'js/API.js' %}"></script> {% endblock %}
+<script src="{% static 'js/recommend.js' %}"></script>
+<script src="{% static 'js/API.js' %}"></script>
+<script src="{% static 'js/search.js' %}"></script>
+{% endblock %}
