@@ -1,4 +1,5 @@
 const BASE_URL = "http://127.0.0.1:8001/api";
+
 let currentPage = 1;
 const dataElement = document.getElementById('status_to_load');
 const STATUS_TO_LOAD = dataElement ? JSON.parse(dataElement.textContent) : 'screened';
@@ -21,17 +22,47 @@ function createMovieCard(movie, cardType) {
   const detailUrl = `/movie/${movie.id}/`;
   const trailerUrl = movie.trailer_url || '#';
   const title = movie.title;
+
   const releaseDate = new Date(movie.release_date);
   const options = { day: 'numeric', month: 'long' };
   const formattedDate = releaseDate.toLocaleDateString('uk-UA', options);
   const isPresale = releaseDate > new Date();
 
+  // ЛОГІКА ПОСТЕРА
+  let posterHTML;
+  if (movie.poster_url) {
+      posterHTML = `<img src="${movie.poster_url}" alt="${title}">`;
+  } else {
+      posterHTML = `
+        <div class="no-poster-placeholder">
+            <div class="np-content">
+                <span class="np-logo">Multi<span class="np-pink">Flex</span></span>
+                <div class="np-divider"></div>
+                <span class="np-text">Скоро з’явиться...</span>
+            </div>
+        </div>
+      `;
+  }
+
+  // ЛОГІКА БЕЙДЖІВ
+  let badgesHTML = '';
+  if (movie.badges && movie.badges.length > 0) {
+      badgesHTML = `<div class="badges-container">`;
+      movie.badges.forEach(badge => {
+          badgesHTML += `<div class="quality-badge">${badge.name}</div>`;
+      });
+      badgesHTML += `</div>`;
+  }
+
   return `
     <div class="movie-card">
-        <img src="${movie.poster_url}" alt="${title}">
+        ${posterHTML}
+        ${badgesHTML}
+        
         <div class="movie-title">
             <a href="${detailUrl}">${title}</a>
         </div>
+
         <div class="movie-overlay">
             <div class="overlay-top-buttons">
                 <a href="${detailUrl}" class="overlay-button"><i class="fas fa-info-circle"></i> <span>Детальніше</span></a>
@@ -42,12 +73,13 @@ function createMovieCard(movie, cardType) {
                 <div class="tickets-text">Квитки у продажу!</div>
             </div>
             ${isPresale ? '<div class="presale-badge">PRESALE</div>' : ''}
-            <div class="overlay-bottom-title"><a href="${detailUrl}">${title}</a></div>
+            <div class="overlay-bottom-title">
+                <a href="${detailUrl}">${title}</a>
+            </div>
         </div>
     </div>
   `;
 }
-
 
 function renderMovies(paginatedData) {
   const container = document.getElementById('movies-grid-container');
@@ -67,7 +99,6 @@ function renderMovies(paginatedData) {
   });
 }
 
-// ОНОВЛЕННЯ ПАГІНАЦІЯ
 function updatePagination(page, paginatedData) {
   const pageInfo = document.getElementById('page-info');
   const prevBtn = document.getElementById('prev-page');

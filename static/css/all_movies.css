@@ -139,6 +139,11 @@
   box-shadow: 0 6px 35px rgba(255, 60, 142, 0.3);
 }
 
+/* Ховає бейджі при наведенні */
+.movie-card:hover .badges-container {
+  opacity: 0;
+}
+
 .movie-card a {
   text-decoration: none;
 }
@@ -342,3 +347,6 @@
     max-width: 100%;
   }
 }
+
+
+
