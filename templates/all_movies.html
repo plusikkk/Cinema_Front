@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}{{ page_title }} - MultiFlex{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/all_movies.css' %}">
+
+
+<div class="content-wrapper">
+
+  <div class="left-column">
+    <section class="movies-list-section">
+
+      <h1 class="page-title">{{ page_title }}</h1>
+
+      <div id="movies-grid-container" class="movie-grid">
+        </div>
+
+      <div class="pagination">
+          <button id="prev-page" disabled><i class="fa-solid fa-less-than"></i></button>
+          <span id="page-info">1 / ?</span>
+          <button id="next-page"><i class="fa-solid fa-greater-than"></i></button>
+      </div>
+    </section>
+  </div>
+
+  <aside class="right-column">
+
+    <div class="search-bar">
+      <input type="text" placeholder="Пошук..." id="search-input">
+        <div id="search-results" class="search-results-container"></div>
+    </div>
+
+    <div class="filter-panel">
+      <h3>Обрати по категоріям</h3>
+
+      <div class="filter-group">
+        <label><input type="checkbox" name="filter_type" value="animation"> Тільки мультфільми</label>
+        <label><input type="checkbox" name="filter_age" value="18"> До 18+</label>
+        <label><input type="checkbox" name="filter_age" value="16"> До 16+</label>
+      </div>
+
+      <hr class="filter-divider">
+
+      <div class="filter-group">
+        <h4>Жанри</h4>
+        <label><input type="checkbox" name="filter_genre" value="drama"> Драма</label>
+        <label><input type="checkbox" name="filter_genre" value="horror"> Жахи</label>
+        <label><input type="checkbox" name="filter_genre" value="comedy"> Комедія</label>
+        <label><input type="checkbox" name="filter_genre" value="action"> Бойовик</label>
+        <label><input type="checkbox" name="filter_genre" value="fantasy"> Фантастика</label>
+        <label><input type="checkbox" name="filter_genre" value="thriller"> Трилер</label>
+      </div>
+
+      <hr class="filter-divider">
+
+       <div class="filter-group">
+          <label><input type="checkbox" name="filter_misc" value="for_kids"> Для дітей</label>
+       </div>
+    </div>
+  </aside>
+
+</div>
+
+{{ status_to_load|json_script:"status_to_load" }}
+
+<script src="{% static 'js/all_movies.js' %}"></script>
+<script src="{% static 'js/search.js' %}"></script>
+{% endblock %}
+
+
+

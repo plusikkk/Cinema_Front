@@ -1,21 +1,25 @@
+{% load static %}
 <!doctype html>
 <html lang="uk">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="icon" type="image/png" href="../static/img/logo.png">
-  <title>MultiFlex</title>
-  <link rel="stylesheet" href="../static/css/headers.css">
-  <link rel="stylesheet" href="../static/css/main_page.css">
-</head>
+
+    <link rel="icon" type="image/png" href="{% static 'img/logo.png' %}">
+    <title>{% block title %}MultiFlex{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/headers.css' %}">
+    <link rel="stylesheet" href="{% static 'css/search.css' %}">
+    <script src="{% static 'js/card_badges.js' %}"></script>
+
+    </head>
 <body>
   <header class="site-header">
     <div class="header-inner">
       <button id="menu-toggle" class="btn-ghost" aria-label="Відкрити меню"><i class="fa-solid fa-bars"></i></button>
 
       <div class="logo-oval">
-          <img src="../static/img/logo.png" alt="MultiFlex logo" class="logo-img">
+          <img src="{% static 'img/logo.png' %}" alt="MultiFlex logo" class="logo-img">
       </div>
 
         <div class="header-actions">
@@ -27,20 +31,20 @@
     </div>
   </header>
 
-  <!-- Сховане ліве меню -->
   <aside id="offcanvas" class="offcanvas" aria-hidden="true">
     <div class="offcanvas-inner">
       <button id="close-menu" class="close-x" aria-label="Закрити меню"><i class="fa-solid fa-xmark"></i></button>
         <div class="offcanvas-logo">
-            <img src="../static/img/logo.png" alt="MultiFlex logo" class="offcanvas-logo-img">
+            <img src="{% static 'img/logo.png' %}" alt="MultiFlex logo" class="offcanvas-logo-img">
         </div>
 
       <nav class="offcanvas-nav">
-        <a href="#" class="nav-item">Зараз у кіно</a>
-        <a href="#" class="nav-item">Скоро у кіно</a>
-        <a href="#" class="nav-item">Кінотеатри</a>
-        <a href="#" class="nav-item">Про нас</a>
-        <a href="#" class="nav-item">Допомога</a>
+          <a href="{% url 'main_page' %}" class="nav-item">Головна</a>
+          <a href="{% url 'movies_now_playing' %}" class="nav-item">Зараз у кіно</a>
+          <a href="{% url 'movies_coming_soon' %}" class="nav-item">Скоро у кіно</a>
+          <a href="#" class="nav-item">Кінотеатри</a>
+          <a href="#" class="nav-item">Про нас</a>
+          <a href="#" class="nav-item">Допомога</a>
       </nav>
 
       <div class="offcanvas-bottom">
@@ -67,6 +71,10 @@
   {% block content %}
   {% endblock %}
 
-  <script src="../static/js/left_header.js"></script>
+<script src="{% static 'js/left_header.js' %}"></script>
 </body>
 </html>
+
+
+
+
