@@ -17,3 +17,5 @@ def movies_coming_soon(request):
         'status_to_load': 'soon'
     }
     return render(request, 'all_movies.html', context)
+
+

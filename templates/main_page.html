@@ -56,20 +56,19 @@
             </div>
             <button type="submit" class="btn-primary">Рандомайзер</button>
         </form>
-
-        <div id="recommend-modal" style="display:none;">
-            <div id="recommend-content"></div>
-            <button onclick="closeModal()">Закрити</button>
-        </div>
       </div>
     </aside>
   </div>
+
+    <div id="recommend-modal" style="display:none;">
+    <div id="recommend-content">
+        </div>
+</div>
 
 <script src="{% static 'js/recommend.js' %}"></script>
 <script src="{% static 'js/API.js' %}"></script>
 <script src="{% static 'js/search.js' %}"></script>
 {% endblock %}
-
 
 
 
