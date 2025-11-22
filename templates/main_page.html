@@ -3,7 +3,6 @@
 {% block content %}
 
 <link rel="stylesheet" href="{% static 'css/main_page.css' %}">
-<link rel="stylesheet" href="{% static 'css/search.css' %}">
 
   <div class="content-wrapper">
     <div class="left-column">  <section class="movies-section">
@@ -57,16 +56,19 @@
             </div>
             <button type="submit" class="btn-primary">Рандомайзер</button>
         </form>
-
-        <div id="recommend-modal" style="display:none;">
-            <div id="recommend-content"></div>
-            <button onclick="closeModal()">Закрити</button>
-        </div>
       </div>
     </aside>
   </div>
+
+    <div id="recommend-modal" style="display:none;">
+    <div id="recommend-content">
+        </div>
+</div>
 
 <script src="{% static 'js/recommend.js' %}"></script>
 <script src="{% static 'js/API.js' %}"></script>
 <script src="{% static 'js/search.js' %}"></script>
 {% endblock %}
+
+
+
