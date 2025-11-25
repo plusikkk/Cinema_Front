@@ -1,0 +1,440 @@
+.film-details-wrapper {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 30px 40px;
+    position: relative;
+    z-index: 1;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    text-decoration: none;
+    margin-bottom: 24px;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+.back-link:hover { color: var(--accent); }
+
+.details-grid {
+    display: grid;
+    grid-template-columns: 320px 1fr 340px;
+    gap: 50px;
+    align-items: start;
+}
+
+/* ПОСТЕР */
+.poster-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.poster-frame {
+    width: 100%;
+    border-radius: 18px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    aspect-ratio: 2/3;
+    background: #121214;
+}
+
+.main-poster {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.poster-badges {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.p-badge {
+    background: rgba(0,0,0,0.7);
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    border: 1px solid rgba(255,255,255,0.2);
+    backdrop-filter: blur(4px);
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.btn-action {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background: var(--pink);
+    color: #fff;
+    border: none;
+    box-shadow: 0 4px 15px rgba(255, 60, 142, 0.3);
+}
+.btn-primary:hover {
+    background: #ff5da8;
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--accent);
+}
+.btn-outline:hover {
+    border-color: var(--pink);
+    color: var(--pink);
+    background: rgba(255, 60, 142, 0.05);
+}
+
+/* БОКС З ІНФОРМАЦІЄЮ */
+.info-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.movie-main-title {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: #fff;
+    margin: 0;
+    line-height: 1.1;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.meta-panel {
+    background: var(--panel);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 35px;
+    box-shadow: var(--shadow);
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.meta-header {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.meta-tag {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.rating-tag { color: #fdd835; border: 1px solid rgba(253, 216, 53, 0.2); }
+.age-tag { color: var(--pink); border: 1px solid rgba(255, 60, 142, 0.3); }
+
+.meta-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 24px 0;
+}
+
+.meta-data-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.meta-row {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+}
+
+.meta-label {
+    color: var(--muted);
+    font-size: 1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 100px;
+}
+
+.meta-value {
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.genres-text {
+    color: #e0e0e0;
+    font-weight: 500;
+}
+
+/* АКТОРИ */
+.actors-section {
+    margin-top: 10px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.actors-section h3 {
+    font-size: 1.1rem;
+    color: var(--muted);
+    margin: 0 0 16px 0;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.actors-carousel {
+    display: flex;
+    overflow-x: auto;
+    gap: 24px;
+    padding: 10px 0 20px 0;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    scroll-snap-type: x mandatory;
+}
+
+.actors-carousel::-webkit-scrollbar {
+    height: 6px;
+}
+.actors-carousel::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+}
+.actors-carousel::-webkit-scrollbar-thumb {
+    background: var(--pink);
+    border-radius: 3px;
+    cursor: pointer;
+}
+.actors-carousel::-webkit-scrollbar-thumb:hover {
+    background: #ff5da8;
+}
+
+/* Картка актора */
+.actor-card {
+    flex: 0 0 auto;
+    width: 140px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 14px;
+    scroll-snap-align: start;
+}
+
+.actor-photo-frame {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid rgba(255, 60, 142, 0.3);
+    background: #18181b;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transition: border-color 0.3s ease, transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.actor-card:hover .actor-photo-frame {
+    border-color: var(--pink);
+    transform: scale(1.05);
+}
+
+.actor-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.actor-placeholder-icon {
+    font-size: 3rem;
+    color: var(--muted);
+    opacity: 0.5;
+}
+
+.actor-name {
+    font-size: 0.95rem;
+    color: #fff;
+    font-weight: 600;
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+
+/* ОПИС */
+.plot-section h3 {
+    margin: 0 0 12px 0;
+    color: #fff;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+.plot-section p {
+    color: #ccc;
+    line-height: 1.7;
+    font-size: 1.05rem;
+    margin: 0;
+}
+
+/* СЕАНСИ */
+.schedule-column {
+    height: 100%;
+}
+
+.schedule-panel {
+    background: #121214;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 28px;
+    height: auto;
+    max-height: 600px;
+    display: flex;
+    flex-direction: column;
+}
+
+.schedule-panel h3 {
+    margin: 0 0 24px 0;
+    font-size: 1.2rem;
+    color: var(--pink);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sessions-list {
+    overflow-y: auto;
+    padding-right: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.sessions-list::-webkit-scrollbar { width: 4px; }
+.sessions-list::-webkit-scrollbar-thumb { background: var(--pink); border-radius: 4px; }
+.sessions-list::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+
+.session-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 14px;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+.session-card:hover {
+    background: rgba(255, 60, 142, 0.1);
+    border-color: var(--pink);
+}
+
+.s-cinema {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+.s-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.s-time {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+}
+.s-price {
+    font-size: 0.95rem;
+    color: var(--pink);
+    font-weight: 600;
+    background: rgba(255, 60, 142, 0.1);
+    padding: 4px 10px;
+    border-radius: 6px;
+}
+
+/* АДАПТАЦІЯ */
+@media (max-width: 1200px) {
+    .details-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    .poster-column {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+    .poster-frame {
+        width: 240px;
+    }
+
+    .info-column {
+        min-width: auto;
+    }
+}
+@media (max-width: 650px) {
+    .poster-column { flex-direction: column; }
+    .poster-frame { width: 100%; }
+}
+
+/* Плівка */
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 60px;
+    z-index: -1;
+    background-image:
+        linear-gradient(var(--bg) 50%, transparent 50%),
+        linear-gradient(90deg, transparent 20%, rgba(255, 255, 255, 0.05) 20%, rgba(255, 255, 255, 0.05) 80%, transparent 80%);
+    background-size: 100% 40px, 100% 100%;
+}
+body::before { left: 20px; border-right: 1px solid rgba(255, 255, 255, 0.05); }
+body::after { right: 20px; border-left: 1px solid rgba(255, 255, 255, 0.05); }
+
+.muted-text {
+    color: var(--muted);
+    font-style: italic;
+}
+
+
+
+

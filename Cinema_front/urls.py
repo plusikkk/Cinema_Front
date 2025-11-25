@@ -9,6 +9,7 @@ urlpatterns = [
     path('', views.main_page, name='main_page'),
     path('movies/now-playing/', views.movies_now_playing, name='movies_now_playing'),
     path('movies/coming-soon/', views.movies_coming_soon, name='movies_coming_soon'),
+    path('movie/<int:pk>/', views.movie_details, name='movie_details'),
     path('cinemas/', views.cinemas, name='cinemas'),
 ]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

@@ -18,6 +18,12 @@ def movies_coming_soon(request):
     }
     return render(request, 'all_movies.html', context)
 
+
 def cinemas(request):
     return render(request, 'cinemas.html')
+
+
+def movie_details(request, pk):
+    return render(request, 'film_details.html')
+
 
