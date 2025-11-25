@@ -1,0 +1,91 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/film_details.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<div class="background-glow-details"></div>
+
+<div class="film-details-wrapper">
+    <a href="javascript:history.back()" class="back-link">
+        <i class="fas fa-arrow-left"></i> Назад до списку
+    </a>
+
+    <div class="details-grid" id="movieContainer">
+        <div class="poster-column">
+            <div class="poster-frame">
+                <img id="moviePoster" src="" alt="Poster" class="main-poster">
+                <div id="movieBadges" class="poster-badges"></div>
+            </div>
+
+            <div class="action-buttons">
+                <a id="trailerBtn" href="#" target="_blank" class="btn-action btn-outline">
+                    <i class="fas fa-play"></i> Дивитись трейлер
+                </a>
+                <button id="buyBtn" class="btn-action btn-primary">
+                    <i class="fas fa-ticket-alt"></i> Купити квитки
+                </button>
+            </div>
+        </div>
+
+        <div class="info-column">
+            <h1 id="movieTitle" class="movie-main-title">Loading...</h1>
+
+            <div class="meta-panel">
+                <div class="meta-header">
+                    <span class="meta-tag rating-tag"><i class="fas fa-star"></i> <span id="movieRating">0.0</span></span>
+                    <span class="meta-tag age-tag" id="movieAge">0+</span>
+                    <span class="meta-tag"><i class="far fa-clock"></i> <span id="movieDuration">- хв</span></span>
+                    <span class="meta-tag year-tag" id="movieYear">----</span>
+                </div>
+
+                <div class="meta-divider"></div>
+
+                <div class="meta-data-list">
+                    <div class="meta-row">
+                        <span class="meta-label">Режисер:</span>
+                        <span id="movieDirector" class="meta-value">-</span>
+                    </div>
+
+                    <div class="meta-row">
+                        <span class="meta-label">Жанри:</span>
+                        <span id="movieGenres" class="meta-value genres-text">-</span>
+                    </div>
+                </div>
+
+                <div class="meta-divider"></div>
+
+                <div class="actors-section">
+                    <h3>Акторський склад</h3>
+                    <div id="movieActors" class="actors-carousel">
+                         Завантаження...
+                    </div>
+                </div>
+
+                <div class="meta-divider"></div>
+
+                <div class="plot-section">
+                    <h3>Про фільм</h3>
+                    <p id="movieDescription">Опис завантажується...</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="schedule-column">
+            <div class="schedule-panel">
+                <h3><i class="far fa-calendar-alt"></i> Найближчі сеанси</h3>
+                <div id="sessionsList" class="sessions-list">
+                    <div class="loading-sessions">Завантаження розкладу...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/film_details.js' %}"></script>
+{% endblock %}
+
+
+
+

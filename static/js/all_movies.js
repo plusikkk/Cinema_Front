@@ -28,7 +28,6 @@ function createMovieCard(movie, cardType) {
   const formattedDate = releaseDate.toLocaleDateString('uk-UA', options);
   const isPresale = releaseDate > new Date();
 
-  // ЛОГІКА ПОСТЕРА
   let posterHTML;
   if (movie.poster_url) {
       posterHTML = `<img src="${movie.poster_url}" alt="${title}">`;
@@ -44,15 +43,8 @@ function createMovieCard(movie, cardType) {
       `;
   }
 
-  // ЛОГІКА БЕЙДЖІВ
-  let badgesHTML = '';
-  if (movie.badges && movie.badges.length > 0) {
-      badgesHTML = `<div class="badges-container">`;
-      movie.badges.forEach(badge => {
-          badgesHTML += `<div class="quality-badge">${badge.name}</div>`;
-      });
-      badgesHTML += `</div>`;
-  }
+  // БЕЙДЖИ
+  let badgesHTML = getBadgesHTML(movie.badges);
 
   return `
     <div class="movie-card">
