@@ -6,25 +6,45 @@
   margin: 10px;
 }
 
-/* Поле вводу */
+.search-bar i {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  font-size: 1rem;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* ПОЛЕ ВВОДУ */
 .search-bar input {
   width: 100%;
-  padding: 12px 18px;
+  padding: 12px 18px 12px 42px;
   border-radius: 14px;
-  border: none;
+
+  /* Рамка та фон */
+  border: 1px solid rgba(255, 255, 255, 0.15);
   background: var(--panel);
   color: var(--accent);
   font-size: 1rem;
   box-shadow: var(--shadow);
   outline: none;
   box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .search-bar input::placeholder {
   color: var(--muted);
 }
 
-/* Контейнер випадаючого списку */
+/* Підсвітка при кліку */
+.search-bar input:focus {
+  border-color: var(--pink);
+  box-shadow: 0 0 15px rgba(255, 60, 142, 0.15);
+}
+
+/* ВИПАДАЮЧИЙ СПИСОК */
 .search-results-container {
   position: absolute;
   top: 100%;
@@ -47,7 +67,6 @@
   display: block;
 }
 
-/* Елемент списку */
 .search-result-item {
   display: block;
   padding: 14px 18px;
@@ -69,11 +88,10 @@
   border-bottom: none;
 }
 
-/* Коли список відкритий */
+/* Закруглення кутів при відкритому списку */
 .search-bar.search-active input {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
   background-color: var(--panel);
   border-bottom: none;
 }
-
