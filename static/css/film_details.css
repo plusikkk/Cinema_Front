@@ -114,7 +114,7 @@
     background: rgba(255, 60, 142, 0.05);
 }
 
-/* БОКС З ІНФОРМАЦІЄЮ */
+/* ІНФОРМАЦІЯ */
 .info-column {
     display: flex;
     flex-direction: column;
@@ -205,7 +205,7 @@
     font-weight: 500;
 }
 
-/* АКТОРИ */
+/* --- ACTORS --- */
 .actors-section {
     margin-top: 10px;
     width: 100%;
@@ -232,30 +232,17 @@
     scroll-snap-type: x mandatory;
 }
 
-.actors-carousel::-webkit-scrollbar {
-    height: 6px;
-}
-.actors-carousel::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 3px;
-}
-.actors-carousel::-webkit-scrollbar-thumb {
-    background: var(--pink);
-    border-radius: 3px;
-    cursor: pointer;
-}
-.actors-carousel::-webkit-scrollbar-thumb:hover {
-    background: #ff5da8;
-}
+.actors-carousel::-webkit-scrollbar { height: 6px; }
+.actors-carousel::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 3px; }
+.actors-carousel::-webkit-scrollbar-thumb { background: var(--pink); border-radius: 3px; cursor: pointer; }
+.actors-carousel::-webkit-scrollbar-thumb:hover { background: #ff5da8; }
 
-/* Картка актора */
 .actor-card {
     flex: 0 0 auto;
     width: 140px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
     gap: 14px;
     scroll-snap-align: start;
 }
@@ -299,7 +286,6 @@
     word-wrap: break-word;
 }
 
-/* ОПИС */
 .plot-section h3 {
     margin: 0 0 12px 0;
     color: #fff;
@@ -315,80 +301,304 @@
     margin: 0;
 }
 
-/* СЕАНСИ */
+/* РОЗКЛАД */
 .schedule-column {
     height: 100%;
 }
 
 .schedule-panel {
-    background: #121214;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 20px;
-    padding: 28px;
-    height: auto;
-    max-height: 600px;
+    background: var(--panel);
+    border-radius: 12px;
+    padding: 20px;
+    color: var(--accent);
+    min-height: 400px;
     display: flex;
     flex-direction: column;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: var(--shadow);
 }
 
 .schedule-panel h3 {
-    margin: 0 0 24px 0;
+    color: var(--accent);
     font-size: 1.2rem;
-    color: var(--pink);
+    margin-bottom: 20px;
+    border-bottom: none;
+    font-weight: 700;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+/* ДРОПДАУН ДАТ */
+.date-select-wrapper {
+    position: relative;
+    margin-bottom: 15px;
+    z-index: 10;
+}
+
+.date-dropdown-btn {
+    width: 100%;
+    background: #232326;
+    color: var(--accent);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.date-dropdown-btn:hover { background: rgba(255, 255, 255, 0.05); }
+
+.date-dropdown-list {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: var(--panel);
+    border-radius: 0 0 8px 8px;
+    max-height: 300px;
+    overflow-y: auto;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    margin-top: 2px;
+}
+
+.date-dropdown-list.active { display: block; }
+
+.date-option {
+    padding: 12px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    transition: background 0.2s;
+    font-weight: 500;
+    color: var(--muted);
+}
+
+.date-option:hover {
+    background: var(--hover);
+    color: #fff;
+}
+
+.date-option.selected {
+    background: var(--pink);
+    color: #fff;
+}
+
+.dropdown-info-item {
+    padding: 15px 16px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: #18181b;
+    line-height: 1.5;
+    cursor: default;
+}
+.dropdown-info-item span {
+    color: #fff;
+    font-weight: 600;
+}
+
+.date-dropdown-list::-webkit-scrollbar { width: 4px; }
+.date-dropdown-list::-webkit-scrollbar-track { background: #333; }
+.date-dropdown-list::-webkit-scrollbar-thumb { background: #666; border-radius: 2px; }
+
+.schedule-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.1);
+    margin-bottom: 20px;
+}
+
+/* СПИСОК СЕАНСІВ (КАРУСЕЛЬ) */
+.sessions-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: auto;
+    max-height: 400px;
+    padding-right: 5px;
+}
+
+.cinema-group {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    width: 100%; /* Обмежуємо ширину */
+    overflow: hidden;
+}
+
+.cinema-name-header {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+/* Горизонтальна карусель для кнопок часу */
+.times-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 12px;
+    padding-bottom: 10px;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+}
+
+.times-grid::-webkit-scrollbar { height: 4px; }
+.times-grid::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 2px; }
+.times-grid::-webkit-scrollbar-thumb { background: var(--pink); border-radius: 2px; }
+
+.time-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 8px 16px;
+    transition: all 0.3s ease;
+    flex: 0 0 auto;
+    min-width: 80px;
+}
+
+.time-slot:hover {
+    background: rgba(255, 60, 142, 0.1);
+    box-shadow: 0 0 15px rgba(255, 60, 142, 0.4);
+    border-color: var(--pink);
+    transform: none;
+}
+
+.ts-time {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--pink);
+    white-space: nowrap;
+}
+
+.ts-format {
+    font-size: 0.65rem;
+    color: var(--muted);
+    margin-top: 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+    white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* БЕЙДЖІ КІНОТЕАТРУ (НИЖНІЙ БЛОК) */
+.formats-legend {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    position: relative;
+}
+
+.f-badge {
+    /* Повернуто нормальну висоту */
+    background: rgba(255, 255, 255, 0.08);
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #e0e0e0;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.f-badge:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #fff;
+}
+
+.f-badge i {
+    font-size: 1em;
+    opacity: 1;
+    color: var(--pink);
+    transition: opacity 0.2s;
+}
+
+.sessions-container::-webkit-scrollbar { width: 4px; }
+.sessions-container::-webkit-scrollbar-thumb { background: var(--pink); border-radius: 4px; }
+
+/* ПІДКАЗКА */
+
+.custom-popover {
+    position: fixed;
+    background: var(--panel);
+    color: var(--accent);
+    border-radius: 12px;
+    padding: 20px;
+    width: 320px;
+    max-width: 90vw;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 50;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.2s, transform 0.2s;
+    display: none;
+    text-align: center;
+    pointer-events: none;
+}
+
+.custom-popover.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.popover-content p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0;
+    color: var(--muted);
+    display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 10px;
 }
 
-.sessions-list {
-    overflow-y: auto;
-    padding-right: 5px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-}
-
-.sessions-list::-webkit-scrollbar { width: 4px; }
-.sessions-list::-webkit-scrollbar-thumb { background: var(--pink); border-radius: 4px; }
-.sessions-list::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
-
-.session-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    padding: 14px;
-    transition: all 0.2s;
-    cursor: pointer;
-}
-.session-card:hover {
-    background: rgba(255, 60, 142, 0.1);
-    border-color: var(--pink);
-}
-
-.s-cinema {
-    font-size: 0.9rem;
-    color: var(--muted);
-    margin-bottom: 8px;
-    font-weight: 600;
-}
-.s-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.s-time {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #fff;
-}
-.s-price {
-    font-size: 0.95rem;
+.popover-icon {
+    font-size: 2rem;
     color: var(--pink);
-    font-weight: 600;
-    background: rgba(255, 60, 142, 0.1);
-    padding: 4px 10px;
-    border-radius: 6px;
+    margin-bottom: 5px;
 }
+
+.popover-arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid var(--panel);
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: -1px;
+}
+
 
 /* АДАПТАЦІЯ */
 @media (max-width: 1200px) {
@@ -403,7 +613,6 @@
     .poster-frame {
         width: 240px;
     }
-
     .info-column {
         min-width: auto;
     }
@@ -413,7 +622,6 @@
     .poster-frame { width: 100%; }
 }
 
-/* Плівка */
 body::before,
 body::after {
     content: "";
@@ -434,7 +642,3 @@ body::after { right: 20px; border-left: 1px solid rgba(255, 255, 255, 0.05); }
     color: var(--muted);
     font-style: italic;
 }
-
-
-
-
