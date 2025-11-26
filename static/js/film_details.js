@@ -1,6 +1,5 @@
 const BASE_URL = "http://127.0.0.1:8001/api";
 
-// Глобальні змінні
 let allSessions = [];
 let selectedDateStr = null;
 let globalMovieEndDate = '...';
@@ -16,8 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error("Movie ID not found in URL");
         displayError("ID фільму не знайдено в адресі.");
     }
-
-    // Закриваємо Popover при кліку будь-де поза ним
     document.addEventListener('click', hidePopover);
 });
 
@@ -55,7 +52,6 @@ async function loadMovieDetails(id) {
         document.getElementById('movieDuration').textContent = `${movie.duration} хв`;
         document.getElementById('movieDirector').textContent = movie.director || 'Не вказано';
 
-        // ЗБЕРІГАЄМО ДАТУ ЗАКІНЧЕННЯ
         if (movie.end_date) {
             const endDateObj = new Date(movie.end_date);
             globalMovieEndDate = endDateObj.toLocaleDateString('uk-UA');
@@ -133,10 +129,6 @@ async function loadMovieDetails(id) {
     }
 }
 
-/* =========================================
-   РОЗКЛАД
-   ========================================= */
-
 async function loadMovieSessions(movieId) {
     const container = document.getElementById('sessionsContainer');
     container.innerHTML = '<div class="loading-sessions">Оновлення розкладу...</div>';
@@ -193,7 +185,6 @@ function renderDateDropdown(dates) {
         dropdownList.classList.remove('active');
     });
 
-    // 1. Рендеримо дати
     dates.forEach(dateStr => {
         const dateObj = new Date(dateStr);
         const formattedDate = formatDateHumanReadable(dateObj);
@@ -215,7 +206,6 @@ function renderDateDropdown(dates) {
         dropdownList.appendChild(item);
     });
 
-    // 2. ДОДАЄМО ІНФО ПРО ПРОКАТ В КІНЕЦЬ СПИСКУ
     const rentalInfo = document.createElement('div');
     rentalInfo.className = 'dropdown-info-item';
     rentalInfo.innerHTML = `
@@ -286,10 +276,8 @@ function renderSessionsForDate(dateKey) {
             btn.onclick = () => { window.location.href = `/booking/${session.id}/`; };
             timesGrid.appendChild(btn);
 
-            // --- ВИПРАВЛЕНО: ЗБИРАЄМО ЗНАЧКИ ФІЛЬМУ ЗАМІСТЬ КІНОТЕАТРУ ---
             if (session.movie && session.movie.badges && Array.isArray(session.movie.badges)) {
                 session.movie.badges.forEach(badge => {
-                    // Додаємо значки фільму в унікальний набір для легенди
                     allBadgesSet.add(JSON.stringify(badge));
                 });
             }
@@ -299,18 +287,14 @@ function renderSessionsForDate(dateKey) {
         container.appendChild(groupDiv);
     }
 
-    // 2. РЕНДЕРИМО ЗІБРАНІ ЗНАЧКИ ФІЛЬМУ В НИЖНІЙ БЛОК
     if (allBadgesSet.size > 0) {
         const sortedBadges = Array.from(allBadgesSet).map(json => JSON.parse(json));
 
         sortedBadges.forEach(badge => {
             const badgeSpan = document.createElement('span');
             badgeSpan.className = 'f-badge';
-
-            // ВСТАВЛЯЄМО ТЕКСТ ТА ІКОНКУ ПИТАННЯ
             badgeSpan.innerHTML = `${badge.name} <i class="fas fa-question-circle"></i>`;
 
-            // Встановлюємо слухачі на ВЕСЬ SPAN
             badgeSpan.addEventListener('mouseenter', (e) => showPopover(e, badge));
             badgeSpan.addEventListener('mouseleave', hidePopover);
             badgeSpan.addEventListener('click', (e) => e.stopPropagation());
@@ -319,10 +303,6 @@ function renderSessionsForDate(dateKey) {
         });
     }
 }
-
-// ===============================================
-// ФУНКЦІЇ ДЛЯ КАСТОМНОГО POPOVER
-// ===============================================
 
 function showPopover(e, badge) {
     e.stopPropagation();
@@ -336,7 +316,6 @@ function showPopover(e, badge) {
     `;
     document.getElementById('popoverDescription').innerHTML = contentHtml;
 
-    // Вимірювання висоти
     popover.style.display = 'block';
     const POPOVER_WIDTH = 320;
     const ARROW_HEIGHT = 10;
@@ -344,7 +323,6 @@ function showPopover(e, badge) {
 
     const leftPosition = targetRect.left + (targetRect.width / 2) - (POPOVER_WIDTH / 2);
 
-    // Автоматичний розрахунок висоти підйому
     const topPosition = targetRect.top - REAL_HEIGHT - ARROW_HEIGHT;
 
     popover.style.position = 'fixed';

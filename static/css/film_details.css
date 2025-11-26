@@ -1,4 +1,3 @@
-/* --- LAYOUT --- */
 .film-details-wrapper {
     max-width: 1600px;
     margin: 0 auto;
@@ -26,7 +25,7 @@
     align-items: start;
 }
 
-/* --- POSTER COLUMN --- */
+/* ПОСТЕР */
 .poster-column {
     display: flex;
     flex-direction: column;
@@ -115,7 +114,7 @@
     background: rgba(255, 60, 142, 0.05);
 }
 
-/* --- INFO COLUMN --- */
+/* ІНФОРМАЦІЯ */
 .info-column {
     display: flex;
     flex-direction: column;
@@ -302,7 +301,7 @@
     margin: 0;
 }
 
-/* --- SCHEDULE COLUMN --- */
+/* РОЗКЛАД */
 .schedule-column {
     height: 100%;
 }
@@ -447,10 +446,10 @@
 /* Горизонтальна карусель для кнопок часу */
 .times-grid {
     display: flex;
-    flex-wrap: nowrap; /* Забороняємо перенесення */
-    overflow-x: auto;  /* Вмикаємо скрол */
+    flex-wrap: nowrap;
+    overflow-x: auto;
     gap: 12px;
-    padding-bottom: 10px; /* Місце для скролбару */
+    padding-bottom: 10px;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     width: 100%;
@@ -471,8 +470,6 @@
     border-radius: 8px;
     padding: 8px 16px;
     transition: all 0.3s ease;
-
-    /* Фіксуємо розмір */
     flex: 0 0 auto;
     min-width: 80px;
 }
@@ -481,7 +478,6 @@
     background: rgba(255, 60, 142, 0.1);
     box-shadow: 0 0 15px rgba(255, 60, 142, 0.4);
     border-color: var(--pink);
-    /* Видалено transform: scale/translateY, щоб не стрибало */
     transform: none;
 }
 
@@ -523,11 +519,9 @@
     font-size: 0.9rem;
     font-weight: 600;
     color: #e0e0e0;
-
     display: inline-flex;
     align-items: center;
     gap: 8px;
-
     border: 1px solid rgba(255, 255, 255, 0.1);
     cursor: pointer;
     transition: all 0.2s ease;
@@ -549,7 +543,7 @@
 .sessions-container::-webkit-scrollbar { width: 4px; }
 .sessions-container::-webkit-scrollbar-thumb { background: var(--pink); border-radius: 4px; }
 
-/* --- CUSTOM POPOVER STYLES (ТЕМНА ТЕМА) --- */
+/* ПІДКАЗКА */
 
 .custom-popover {
     position: fixed;
