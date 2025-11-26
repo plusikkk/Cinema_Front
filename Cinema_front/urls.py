@@ -11,6 +11,8 @@ urlpatterns = [
     path('movies/coming-soon/', views.movies_coming_soon, name='movies_coming_soon'),
     path('movie/<int:pk>/', views.movie_details, name='movie_details'),
     path('cinemas/', views.cinemas, name='cinemas'),
+    path('login/', views.login, name='login'),
+    path('register/', views.register, name='register'),
 ]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 

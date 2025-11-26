@@ -23,10 +23,10 @@
       </div>
 
         <div class="header-actions">
-            <button class="btn-login-combo">
+            <a href="{% url 'login' %}" class="btn-login-combo" style="text-decoration: none;">
             <span>Login</span>
             <i class="fa-regular fa-user"></i>
-            </button>
+            </a>
         </div>
     </div>
   </header>
@@ -48,7 +48,7 @@
       </nav>
 
       <div class="offcanvas-bottom">
-        <button class="btn-primary">Login</button>
+        <a href="{% url 'login' %}" class="btn-primary" style="text-decoration: none; display: inline-block; text-align: center;">Login</a>
         <div class="socials">
           <p class="socials-title">Ми в соціальних мережах</p>
           <div class="social-links">
