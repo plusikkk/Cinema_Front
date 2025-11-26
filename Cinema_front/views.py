@@ -26,4 +26,10 @@ def cinemas(request):
 def movie_details(request, pk):
     return render(request, 'film_details.html')
 
+def login(request):
+    return render(request, 'login.html')
+
+def register(request):
+    return render(request, 'register.html')
+
 
