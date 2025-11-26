@@ -1,7 +1,11 @@
-const BASE_URL = "http://127.0.0.1:8001/api"; 
+const BASE_URL = "http://127.0.0.1:8001/api";
+
+// Глобальні змінні
+let allSessions = [];
+let selectedDateStr = null;
+let globalMovieEndDate = '...';
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Отримуємо ID фільму з URL
     const pathParts = window.location.pathname.split('/').filter(Boolean);
     const movieId = pathParts[pathParts.length - 1];
 
@@ -12,6 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error("Movie ID not found in URL");
         displayError("ID фільму не знайдено в адресі.");
     }
+
+    // Закриваємо Popover при кліку будь-де поза ним
+    document.addEventListener('click', hidePopover);
 });
 
 function displayError(message) {
@@ -22,17 +29,13 @@ function displayError(message) {
             <p>${message}</p>
         </div>`;
     }
-    const sessionsList = document.getElementById('sessionsList');
-    if (sessionsList) {
-        sessionsList.innerHTML = `<div class="loading-sessions">Розклад недоступний</div>`;
-    }
 }
 
 async function loadMovieDetails(id) {
     try {
         const url = `${BASE_URL}/movies/${id}/`;
-        const response = await fetch(url); 
-        
+        const response = await fetch(url);
+
         if (!response.ok) {
             let errorMessage = `Не вдалося завантажити фільм. Статус: ${response.status}.`;
             if (response.status === 404) {
@@ -40,22 +43,29 @@ async function loadMovieDetails(id) {
             }
             throw new Error(errorMessage);
         }
-        
+
         const movie = await response.json();
+
+        // Основні дані
         document.getElementById('movieTitle').textContent = movie.title;
         document.getElementById('movieDescription').textContent = movie.description;
         document.getElementById('movieYear').textContent = new Date(movie.release_date).getFullYear();
         document.getElementById('movieRating').textContent = movie.rating;
         document.getElementById('movieAge').textContent = `${movie.age_category}+`;
         document.getElementById('movieDuration').textContent = `${movie.duration} хв`;
-        
-        // РЕЖИСЕР
         document.getElementById('movieDirector').textContent = movie.director || 'Не вказано';
 
-        // ЖАНРИ
+        // ЗБЕРІГАЄМО ДАТУ ЗАКІНЧЕННЯ
+        if (movie.end_date) {
+            const endDateObj = new Date(movie.end_date);
+            globalMovieEndDate = endDateObj.toLocaleDateString('uk-UA');
+        } else {
+            globalMovieEndDate = 'невідомо';
+        }
+
+        // Жанри
         const genresContainer = document.getElementById('movieGenres');
         if (movie.genres && movie.genres.length > 0) {
-            // Створюємо рядок "Action, Adventure, Comedy"
             const genresText = movie.genres.map(g => g.name).join(', ');
             genresContainer.textContent = genresText;
         } else {
@@ -78,11 +88,10 @@ async function loadMovieDetails(id) {
             trailerBtn.style.display = 'none';
         }
 
-        // АКТОРИ
+        // Актори
         const actorsContainer = document.getElementById('movieActors');
         if (movie.actors && movie.actors.length > 0) {
             actorsContainer.innerHTML = movie.actors.map(actor => {
-
                 let photoContent;
                 if (actor.photo) {
                     photoContent = `
@@ -92,7 +101,6 @@ async function loadMovieDetails(id) {
                 } else {
                     photoContent = `<i class="fas fa-user actor-placeholder-icon"></i>`;
                 }
-
                 return `
                     <div class="actor-card">
                         <div class="actor-photo-frame">
@@ -106,7 +114,7 @@ async function loadMovieDetails(id) {
              actorsContainer.innerHTML = '<span class="muted-text">Інформація про акторів відсутня</span>';
         }
 
-        // Бейджі
+        // Бейджі фільму (верхні на постері)
         const badgesContainer = document.getElementById('movieBadges');
         if (movie.badges && movie.badges.length > 0) {
             badgesContainer.innerHTML = movie.badges.map(b =>
@@ -121,48 +129,266 @@ async function loadMovieDetails(id) {
 
     } catch (error) {
         console.error("Помилка завантаження деталей фільму:", error);
-        displayError(error.message || "Сталася невідома помилка при завантаженні даних фільму.");
+        displayError(error.message || "Сталася невідома помишка при завантаженні даних фільму.");
     }
 }
 
-// Завантаження сеансів
+/* =========================================
+   РОЗКЛАД
+   ========================================= */
+
 async function loadMovieSessions(movieId) {
-    const list = document.getElementById('sessionsList');
-    list.innerHTML = '<div class="loading-sessions">Пошук сеансів...</div>';
+    const container = document.getElementById('sessionsContainer');
+    container.innerHTML = '<div class="loading-sessions">Оновлення розкладу...</div>';
 
     try {
         const res = await fetch(`${BASE_URL}/sessions/?movie=${movieId}`);
         if (!res.ok) throw new Error('Failed to fetch sessions');
-        const sessions = await res.json();
-        
-        if (sessions.length > 0) {
-            list.innerHTML = '';
-            sessions.forEach(session => {
-                const cinemaName = session.hall && session.hall.cinema ? (session.hall.cinema.name || session.hall.cinema) : 'Невідомий кінотеатр';
-                
-                const el = document.createElement('div');
-                el.className = 'session-card';
-                el.innerHTML = `
-                    <div class="s-cinema">${cinemaName}</div>
-                    <div class="s-info">
-                        <span class="s-time">${new Date(session.start_time).toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' })}</span>
-                        <span class="s-price">${session.price} грн</span>
-                    </div>
-                `;
-                el.onclick = () => {
-                    alert(`Обрано сеанс #${session.id} у ${cinemaName} о ${new Date(session.start_time).toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' })}`);
-                };
-                list.appendChild(el);
-            });
+
+        allSessions = await res.json();
+
+        if (allSessions.length > 0) {
+            initDateSelector();
         } else {
-            list.innerHTML = '<div class="loading-sessions">Сеансів немає</div>';
+            container.innerHTML = '<div class="loading-sessions">На жаль, сеансів немає</div>';
+            document.getElementById('dateDropdownBtn').disabled = true;
+            document.getElementById('selectedDateText').textContent = "Немає сеансів";
         }
 
     } catch (e) {
-        console.error("Помилка завантаження сеансів:", e);
-        list.innerHTML = '<div class="loading-sessions">Не вдалося завантажити розклад</div>';
+        console.error("Помилка:", e);
+        container.innerHTML = '<div class="loading-sessions">Помилка завантаження</div>';
+    }
+}
+
+function initDateSelector() {
+    const uniqueDates = new Set();
+    allSessions.forEach(session => {
+        const dateKey = session.start_time.split('T')[0];
+        uniqueDates.add(dateKey);
+    });
+
+    const sortedDates = Array.from(uniqueDates).sort();
+
+    if (sortedDates.length > 0) {
+        selectedDateStr = sortedDates[0];
+        renderDateDropdown(sortedDates);
+        renderSessionsForDate(selectedDateStr);
+    }
+}
+
+function renderDateDropdown(dates) {
+    const dropdownList = document.getElementById('dateDropdownList');
+    const dropdownBtn = document.getElementById('dateDropdownBtn');
+    const btnText = document.getElementById('selectedDateText');
+
+    dropdownList.innerHTML = '';
+
+    dropdownBtn.onclick = (e) => {
+        e.stopPropagation();
+        dropdownList.classList.toggle('active');
+    };
+
+    document.addEventListener('click', () => {
+        dropdownList.classList.remove('active');
+    });
+
+    // 1. Рендеримо дати
+    dates.forEach(dateStr => {
+        const dateObj = new Date(dateStr);
+        const formattedDate = formatDateHumanReadable(dateObj);
+
+        const item = document.createElement('div');
+        item.className = 'date-option';
+        if (dateStr === selectedDateStr) item.classList.add('selected');
+
+        item.innerHTML = formattedDate;
+
+        item.onclick = () => {
+            selectedDateStr = dateStr;
+            btnText.textContent = formattedDate;
+            document.querySelectorAll('.date-option').forEach(el => el.classList.remove('selected'));
+            item.classList.add('selected');
+            renderSessionsForDate(selectedDateStr);
+        };
+
+        dropdownList.appendChild(item);
+    });
+
+    // 2. ДОДАЄМО ІНФО ПРО ПРОКАТ В КІНЕЦЬ СПИСКУ
+    const rentalInfo = document.createElement('div');
+    rentalInfo.className = 'dropdown-info-item';
+    rentalInfo.innerHTML = `
+        Далі розклад не сформовано.<br>
+        Фільм в прокаті до <span>${globalMovieEndDate}</span>
+    `;
+    dropdownList.appendChild(rentalInfo);
+
+    btnText.textContent = formatDateHumanReadable(new Date(selectedDateStr));
+}
+
+function renderSessionsForDate(dateKey) {
+    const container = document.getElementById('sessionsContainer');
+    container.innerHTML = '';
+
+    const legendContainer = document.querySelector('.formats-legend');
+    legendContainer.innerHTML = '';
+    const allBadgesSet = new Set();
+
+    const filteredSessions = allSessions.filter(session => {
+        return session.start_time.startsWith(dateKey);
+    });
+
+    if (filteredSessions.length === 0) {
+        container.innerHTML = '<div class="loading-sessions">Сеансів немає</div>';
+        return;
+    }
+
+    const groupedByCinema = {};
+    filteredSessions.forEach(session => {
+        const cinema = session.hall && session.hall.cinema ? session.hall.cinema : null;
+        const cinemaName = cinema ? (cinema.name || cinema) : 'Кінотеатр';
+
+        if (!groupedByCinema[cinemaName]) {
+            groupedByCinema[cinemaName] = { sessions: [], cinemaObj: cinema };
+        }
+        groupedByCinema[cinemaName].sessions.push(session);
+    });
+
+    for (const [cinemaName, data] of Object.entries(groupedByCinema)) {
+        const groupDiv = document.createElement('div');
+        groupDiv.className = 'cinema-group';
+
+        const header = document.createElement('div');
+        header.className = 'cinema-name-header';
+        header.textContent = cinemaName;
+        groupDiv.appendChild(header);
+
+        const timesGrid = document.createElement('div');
+        timesGrid.className = 'times-grid';
+
+        data.sessions.sort((a, b) => new Date(a.start_time) - new Date(b.start_time));
+
+        data.sessions.forEach(session => {
+            const timeObj = new Date(session.start_time);
+            const timeStr = timeObj.toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' });
+
+            // Формуємо текст для кнопки сеансу
+            let formatText = "2D";
+            if (session.movie && session.movie.badges && session.movie.badges.length > 0) {
+                formatText = session.movie.badges.map(b => b.name).join(' ');
+            }
+
+            const btn = document.createElement('button');
+            btn.className = 'time-slot';
+            btn.innerHTML = `<span class="ts-time">${timeStr}</span><span class="ts-format">${formatText}</span>`;
+
+            btn.onclick = () => { window.location.href = `/booking/${session.id}/`; };
+            timesGrid.appendChild(btn);
+
+            // --- ВИПРАВЛЕНО: ЗБИРАЄМО ЗНАЧКИ ФІЛЬМУ ЗАМІСТЬ КІНОТЕАТРУ ---
+            if (session.movie && session.movie.badges && Array.isArray(session.movie.badges)) {
+                session.movie.badges.forEach(badge => {
+                    // Додаємо значки фільму в унікальний набір для легенди
+                    allBadgesSet.add(JSON.stringify(badge));
+                });
+            }
+        });
+
+        groupDiv.appendChild(timesGrid);
+        container.appendChild(groupDiv);
+    }
+
+    // 2. РЕНДЕРИМО ЗІБРАНІ ЗНАЧКИ ФІЛЬМУ В НИЖНІЙ БЛОК
+    if (allBadgesSet.size > 0) {
+        const sortedBadges = Array.from(allBadgesSet).map(json => JSON.parse(json));
+
+        sortedBadges.forEach(badge => {
+            const badgeSpan = document.createElement('span');
+            badgeSpan.className = 'f-badge';
+
+            // ВСТАВЛЯЄМО ТЕКСТ ТА ІКОНКУ ПИТАННЯ
+            badgeSpan.innerHTML = `${badge.name} <i class="fas fa-question-circle"></i>`;
+
+            // Встановлюємо слухачі на ВЕСЬ SPAN
+            badgeSpan.addEventListener('mouseenter', (e) => showPopover(e, badge));
+            badgeSpan.addEventListener('mouseleave', hidePopover);
+            badgeSpan.addEventListener('click', (e) => e.stopPropagation());
+
+            legendContainer.appendChild(badgeSpan);
+        });
+    }
+}
+
+// ===============================================
+// ФУНКЦІЇ ДЛЯ КАСТОМНОГО POPOVER
+// ===============================================
+
+function showPopover(e, badge) {
+    e.stopPropagation();
+    const popover = document.getElementById('badgePopover');
+    const targetRect = e.target.closest('.f-badge').getBoundingClientRect();
+    const description = badge.description || 'Детальний опис відсутній.';
+
+    const contentHtml = `
+        <i class="fa-solid fa-circle-info popover-icon"></i>
+        <span>${description}</span>
+    `;
+    document.getElementById('popoverDescription').innerHTML = contentHtml;
+
+    // Вимірювання висоти
+    popover.style.display = 'block';
+    const POPOVER_WIDTH = 320;
+    const ARROW_HEIGHT = 10;
+    const REAL_HEIGHT = popover.offsetHeight;
+
+    const leftPosition = targetRect.left + (targetRect.width / 2) - (POPOVER_WIDTH / 2);
+
+    // Автоматичний розрахунок висоти підйому
+    const topPosition = targetRect.top - REAL_HEIGHT - ARROW_HEIGHT;
+
+    popover.style.position = 'fixed';
+    popover.style.left = `${leftPosition}px`;
+    popover.style.top = `${topPosition}px`;
+
+    requestAnimationFrame(() => {
+        popover.classList.add('visible');
+    });
+}
+
+function hidePopover() {
+    const popover = document.getElementById('badgePopover');
+    if (popover.classList.contains('visible')) {
+        popover.classList.remove('visible');
+        setTimeout(() => {
+            if (!popover.classList.contains('visible')) {
+                popover.style.display = 'none';
+            }
+        }, 200);
     }
 }
 
 
+function formatDateHumanReadable(dateObj) {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
 
+    const d = new Date(dateObj.toDateString());
+    const t = new Date(today.toDateString());
+    const tm = new Date(tomorrow.toDateString());
+
+    if (d.getTime() === t.getTime()) return `Сьогодні, ${d.getDate()} ${getMonthName(d.getMonth())}`;
+    if (d.getTime() === tm.getTime()) return `Завтра, ${d.getDate()} ${getMonthName(d.getMonth())}`;
+
+    const days = ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
+    return `${days[d.getDay()]}, ${d.getDate()} ${getMonthName(d.getMonth())}`;
+}
+
+function getMonthName(monthIndex) {
+    const months = [
+        'січня', 'лютого', 'березня', 'квітня', 'травня', 'червня',
+        'липня', 'серпня', 'вересня', 'жовтня', 'листопада', 'грудня'
+    ];
+    return months[monthIndex];
+}

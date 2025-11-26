@@ -74,18 +74,37 @@
 
         <div class="schedule-column">
             <div class="schedule-panel">
-                <h3><i class="far fa-calendar-alt"></i> Найближчі сеанси</h3>
-                <div id="sessionsList" class="sessions-list">
-                    <div class="loading-sessions">Завантаження розкладу...</div>
+                <h3>Розклад сеансів</h3>
+
+                <div class="date-select-wrapper">
+                    <button id="dateDropdownBtn" class="date-dropdown-btn">
+                        <span id="selectedDateText">Оберіть дату</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+
+                    <div id="dateDropdownList" class="date-dropdown-list">
+                        </div>
                 </div>
+
+                <div class="schedule-divider"></div>
+
+                <div id="sessionsContainer" class="sessions-container">
+                    <div class="loading-sessions">Завантаження...</div>
+                </div>
+
+                <div class="formats-legend">
+                    </div>
             </div>
         </div>
     </div>
 </div>
 
+<div id="badgePopover" class="custom-popover" style="display:none;">
+    <div class="popover-content">
+        <p id="popoverDescription"></p>
+    </div>
+    <div class="popover-arrow"></div>
+</div>
+
 <script src="{% static 'js/film_details.js' %}"></script>
 {% endblock %}
-
-
-
-
