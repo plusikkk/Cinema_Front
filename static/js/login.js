@@ -1,28 +1,27 @@
-// Константи для URL (якщо ви на одному домені, можна використовувати відносні шляхи)
-const API_TOKEN_URL = "/api/token/";
+const API_TOKEN_URL = "http://127.0.0.1:8001/api/token/";
 
 // Функція для збереження токенів
 function saveTokens(data) {
     localStorage.setItem('access_token', data.access);
     localStorage.setItem('refresh_token', data.refresh);
 
-    // Якщо хочеш зберегти ім'я користувача для відображення в шапці
     if (data.username) {
         localStorage.setItem('username', data.username);
     }
 }
 
-// Функція для перенаправлення
 function redirectAfterLogin() {
-    // Перенаправляємо на головну сторінку
-    window.location.href = "{% url 'main_page' %}";
+    if (typeof MAIN_PAGE_URL !== 'undefined') {
+        window.location.href = MAIN_PAGE_URL;
+    } else {
+        window.location.href = "/";
+    }
 }
 
 $(document).ready(function() {
     $("#loginForm").on("submit", function(e) {
         e.preventDefault();
 
-        // Очищаємо попередні помилки, якщо були
         $("#error-message").hide().text("");
 
         const username = $("#username").val();
@@ -37,29 +36,26 @@ $(document).ready(function() {
                 password: password
             }),
             success: function(data) {
-                // Успішний логін
                 console.log("Login success");
-
-                // Зберігаємо токен. Додаємо username в об'єкт, бо бекенд може не повертати його в токені
                 saveTokens({ ...data, username: username });
-
                 redirectAfterLogin();
             },
             error: function(xhr) {
-                // Обробка помилки
                 console.error("Login error", xhr);
-
                 let message = "Невірний логін або пароль";
 
-                // Якщо сервер повернув конкретну помилку, показуємо її
                 if (xhr.responseJSON && xhr.responseJSON.detail) {
                     message = xhr.responseJSON.detail;
+                } else if (xhr.status === 0) {
+                    message = "Помилка з'єднання з сервером. Перевірте, чи запущено бекенд на порту 8001 та налаштування CORS.";
                 }
 
                 alert(message);
-                // Або можна виводити в дів:
-                // $("#error-message").text(message).show();
             }
         });
     });
 });
+
+
+
+

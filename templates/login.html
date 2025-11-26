@@ -17,12 +17,16 @@
 
     <p>Ще не маєте акаунту? <a href="{% url 'register' %}">Зареєструватися</a></p>
 
+
     <div id="error-message" style="color: red; display: none; margin-top: 10px;"></div>
 </div>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
+    <script>
+        const MAIN_PAGE_URL = "{% url 'main_page' %}";
+    </script>
+
     <script src="{% static 'js/login.js' %}"></script>
 {% endblock %}
-
 
 
