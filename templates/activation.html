@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block content %}
+<div class="auth-container" style="text-align: center; margin-top: 100px;">
+    <h2>Активація акаунту</h2>
+    <p id="status-text">З'єднуємося з сервером...</p>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script>
+    const ACTIVATION_DATA = {
+        uid: "{{ uidb64 }}",
+        token: "{{ token }}",
+        // Порт твого БЕКЕНДУ
+        backendPort: "8001",
+        // URL головної сторінки для редіректу
+        homeUrl: "{% url 'main_page' %}"
+    };
+</script>
+
+<script src="{% static 'js/activation.js' %}"></script>
+{% endblock %}
+
+

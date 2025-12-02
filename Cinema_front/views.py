@@ -32,4 +32,8 @@ def login(request):
 def register(request):
     return render(request, 'register.html')
 
+def activation(request, uidb64, token):
+    return render(request, 'activation.html', {'uidb64': uidb64, 'token': token})
+
+
 
