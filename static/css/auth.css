@@ -1,0 +1,127 @@
+/* static/css/auth.css */
+
+:root {
+  --pink: #ff0055;
+  --pink-hover: #ff2e93;
+  --bg: #050505;
+  --text-main: #ffffff;
+  --text-muted: #a1a1aa;
+  --border: rgba(255, 255, 255, 0.15);
+  --input-bg: rgba(255, 255, 255, 0.08);
+}
+
+/* СКИДАННЯ ВІДСТУПІВ ДЛЯ ЦІЄЇ СТОРІНКИ */
+.auth-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 85vh; /* Висота майже на весь екран */
+  width: 100%;
+  background-color: var(--bg);
+  /* Фонові "плями" (боке) */
+  background-image:
+    radial-gradient(circle at 15% 25%, rgba(255, 0, 85, 0.15) 0%, transparent 25%),
+    radial-gradient(circle at 85% 75%, rgba(255, 0, 85, 0.1) 0%, transparent 30%);
+  background-attachment: fixed;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* КАРТКА */
+.auth-container {
+  width: 100%;
+  max-width: 400px;
+  /* Прибираємо фон картки, залишаємо лише контент, як ви просили */
+  background: transparent;
+  padding: 0;
+  text-align: center;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* ЗАГОЛОВКИ */
+.auth-container h1,
+.auth-container h2 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 30px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+/* ПОЛЯ ВВОДУ */
+.auth-container .form-group {
+  margin-bottom: 20px;
+}
+
+.auth-container input {
+  width: 100%;
+  padding: 16px 20px;
+  background-color: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: #fff;
+  font-size: 1.1rem;
+  outline: none;
+  transition: 0.3s;
+  box-sizing: border-box; /* Важливо, щоб не вилазило за межі */
+}
+
+.auth-container input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.auth-container input:focus {
+  border-color: var(--pink);
+  background-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 0 4px rgba(255, 0, 85, 0.2);
+}
+
+/* КНОПКА */
+.auth-container button {
+  width: 100%;
+  padding: 18px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 12px;
+  background: var(--pink);
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 4px 20px rgba(255, 0, 85, 0.4);
+}
+
+.auth-container button:hover {
+  background: var(--pink-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 0, 85, 0.6);
+}
+
+/* ПОСИЛАННЯ */
+.auth-container p {
+  margin-top: 25px;
+  color: var(--text-muted);
+}
+
+.auth-container a {
+  color: var(--pink);
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 5px;
+}
+
+.auth-container a:hover {
+  text-decoration: underline;
+  color: #fff;
+}
+
+/* Анімація появи */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}

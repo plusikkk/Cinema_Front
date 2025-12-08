@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (token && username && headerActions) {
       headerActions.innerHTML = `
           <div style="display: flex; align-items: center; gap: 15px;">
-              <a href="/profile/" class="btn-login-combo" style="text-decoration: none; background-color: #28a745; color: white; border: none;">
+              <a href="/profile/" class="btn-login-combo" style="text-decoration: none; background-color: #ff2e93; color: white; border: none;">
                   <span style="margin-right: 5px;">${username}</span>
                   <i class="fa-solid fa-user-check"></i>
               </a>

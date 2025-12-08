@@ -1,28 +1,40 @@
 {% extends "layout.html" %}
 {% load static %}
 
-{% block content %}
-<div class="auth-container" style="text-align: center; margin-top: 100px;">
-    <h2>Активація акаунту</h2>
-    <p id="status-text">З'єднуємося з сервером...</p>
-</div>
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
 {% endblock %}
 
-{% block scripts %}
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+{% block content %}
+<div class="auth-wrapper">
+    <div class="auth-container">
+        </div>
+</div>
 
+<div class="auth-container">
+    <h2>Введіть код підтвердження</h2>
+    <p>Ми надіслали код на вашу пошту.</p>
+
+    <form id="verifyForm" onsubmit="return false;">
+        <div class="form-group">
+            <input type="text" id="code" placeholder="123456" maxlength="6" style="text-align: center; letter-spacing: 5px; font-size: 24px;" required>
+        </div>
+        <button type="button" id="submitBtn">Підтвердити</button>
+    </form>
+
+    <div id="error-message" style="color: red; display: none; margin-top: 10px;"></div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
-    const ACTIVATION_DATA = {
-        uid: "{{ uidb64 }}",
-        token: "{{ token }}",
-        // Порт твого БЕКЕНДУ
-        backendPort: "8001",
-        // URL головної сторінки для редіректу
-        homeUrl: "{% url 'main_page' %}"
+    const VERIFY_CONFIG = {
+        // API URL (Бекенд)
+        apiUrl: "http://127.0.0.1:8001/api/auth/verify/",
+        // Куди перекидати після успіху (Головна)
+        homeUrl: "{% url 'main_page' %}",
+        // Куди перекидати, якщо немає email (Реєстрація)
+        registerUrl: "{% url 'register' %}"
     };
 </script>
-
 <script src="{% static 'js/activation.js' %}"></script>
 {% endblock %}
-
-

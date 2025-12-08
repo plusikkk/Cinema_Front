@@ -33,10 +33,10 @@ $(document).ready(function() {
             }),
             success: function(response) {
                 console.log("Registration success", response);
+                localStorage.setItem('registration_email', email)
+                alert("Реєстрація успішна! Ми надіслали код для активації на вашу пошту.");
 
-                alert("Реєстрація успішна! Ми надіслали лист для активації на вашу пошту.");
-
-                window.location.href = "/login/";
+                window.location.href = "/verify/";
             },
             error: function(xhr) {
                 console.error("Registration error", xhr);
