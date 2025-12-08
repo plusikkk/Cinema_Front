@@ -1,0 +1,209 @@
+:root {
+  --bg-dark: #0e0e0f;
+  --text-grey: #b0b0b0;
+  --pink: #ff3c8e;
+  --card-bg: rgba(255, 255, 255, 0.03);
+}
+
+/* ГОЛОВНИЙ КОНТЕЙНЕР */
+.about-us-container {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-dark);
+  position: relative;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ЛІВА СТОРОНА */
+.about-us-left {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100vh;
+  background: radial-gradient(circle at 0% 0%, #2a2a2a, #000 70%);
+  overflow: hidden;
+  z-index: 1;
+  box-shadow: 10px 0 50px rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cinema-brand-logo {
+  position: relative; z-index: 30;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 6vw; font-weight: 900;
+  text-transform: uppercase; letter-spacing: 0.05em; color: #ffffff;
+  text-shadow: 4px 4px 0px var(--pink), 8px 8px 20px rgba(255, 60, 142, 0.5);
+  opacity: 0; animation: logoFadeIn 1.5s ease-out forwards 0.5s;
+}
+@keyframes logoFadeIn { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
+
+.projector-light {
+  position: absolute; top: -20%; left: -20%; width: 160%; height: 160%;
+  background: linear-gradient(125deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.02) 40%, transparent 70%);
+  transform: rotate(-10deg); transform-origin: 0% 0%;
+  filter: blur(80px); pointer-events: none; mix-blend-mode: screen; z-index: 5;
+  animation: lightPulse 6s ease-in-out infinite alternate;
+}
+@keyframes lightPulse { 0% { opacity: 0.4; transform: rotate(-10deg) scale(0.98); } 100% { opacity: 0.7; transform: rotate(-10deg) scale(1.02); } }
+
+#dustCanvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; mix-blend-mode: screen; opacity: 0.7; z-index: 10; }
+
+
+/* ПРАВА СТОРОНА  */
+.about-us-right {
+  width: 50%;
+  margin-left: 50%;
+  min-height: 100vh;
+  padding: 60px 80px 120px;
+  background-color: var(--bg-dark);
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  box-sizing: border-box;
+}
+
+.about-us-right h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: #fff;
+  margin: 0;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+}
+
+.about-us-right h2 span {
+  color: var(--pink);
+  display: block;
+  font-size: 4rem;
+  text-shadow: 0 0 30px rgba(255, 60, 142, 0.25);
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.about-section-header {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+}
+
+.about-section-header::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 24px;
+  background-color: var(--pink);
+  margin-right: 15px;
+  border-radius: 2px;
+  box-shadow: 0 0 10px var(--pink);
+}
+
+.about-section-content p {
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: var(--text-grey);
+  margin: 0;
+  max-width: 90%;
+  font-weight: 400;
+}
+
+.about-section-content strong {
+  color: #fff;
+  font-weight: 600;
+}
+
+.values-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  padding: 0;
+  list-style: none;
+  margin-top: 10px;
+}
+
+.value-item {
+  background: var(--card-bg);
+  padding: 30px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.value-item:hover {
+  transform: translateY(-7px);
+  background: rgba(255, 255, 255, 0.07);
+  border-color: var(--pink);
+  box-shadow: 0 10px 30px rgba(255, 60, 142, 0.15);
+}
+
+.value-item strong {
+  display: block;
+  color: var(--pink);
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.value-item span {
+  color: #ccc;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+
+/* АДАПТАЦІЯ */
+@media (max-width: 1400px) {
+  .about-us-right { padding: 80px 50px; }
+  .about-us-right h2 { font-size: 3rem; }
+  .about-us-right h2 span { font-size: 3.5rem; }
+  .cinema-brand-logo { font-size: 5vw; }
+}
+
+@media (max-width: 900px) {
+  .about-us-container { display: flex; flex-direction: column; }
+
+  .about-us-left {
+    position: relative;
+    width: 100%;
+    height: 50vh;
+    top: auto; left: auto;
+  }
+
+  .about-us-right {
+    width: 100%;
+    margin-left: 0;
+    padding: 50px 20px;
+    min-height: auto;
+    gap: 50px;
+  }
+
+  .projector-light { width: 100%; left: 0; }
+  .cinema-brand-logo { font-size: 12vw; }
+  .about-us-right h2 { font-size: 2.5rem; }
+  .about-us-right h2 span { font-size: 3rem; }
+  .values-list { grid-template-columns: 1fr; }
+}
+

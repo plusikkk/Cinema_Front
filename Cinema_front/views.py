@@ -36,4 +36,5 @@ def activation(request, uidb64, token):
     return render(request, 'activation.html', {'uidb64': uidb64, 'token': token})
 
 
-
+def about_us(request):
+    return render(request, 'about_us.html')
