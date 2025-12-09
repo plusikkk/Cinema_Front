@@ -13,6 +13,8 @@ urlpatterns = [
     path('cinemas/', views.cinemas, name='cinemas'),
     path('login/', views.login, name='login'),
     path('register/', views.register, name='register'),
+    path('activation/<uidb64>/<token>/', views.activation, name='activation_account' ),
+    path('about-us/', views.about_us, name='about_us'),
     path('verify/', views.activation, name='activation' ),
 ]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

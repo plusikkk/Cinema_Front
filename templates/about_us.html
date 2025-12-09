@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}Про компанію - MultiFlex{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/about_us.css' %}">
+
+<main style="width: 100%; max-width: 100%; margin: 0; padding: 0; overflow-x: hidden;">
+
+    <div class="about-us-container">
+        <div class="about-us-left">
+            <div class="projector-light"></div>
+            <div class="projector-body"></div>
+            <div class="projector-lens"></div>
+            <h1 class="cinema-brand-logo">MULTIFLEX</h1>
+            <canvas id="dustCanvas"></canvas>
+        </div>
+
+        <div class="about-us-right">
+            <h2 class="main-title">ПРО КОМПАНІЮ</h2>
+            <section>
+                <div class="about-section-header">Хто ми?</div>
+                <div class="about-section-content">
+                    <p>
+                        MultiFlex — це простір, створений для максимального занурення у світ кіно. Ми поєднуємо **інноваційні технології** (IMAX, ScreenX), **затишну атмосферу** та **першокласний сервіс**.
+                    </p>
+                </div>
+            </section>
+
+            <section>
+                <div class="about-section-header">Філософія</div>
+                <div class="about-section-content">
+                    <p>
+                        Сучасний кінотеатр — це хаб культурного дозвілля. Це можливість відволіктися від повсякденності та насолодитися якістю звуку та зображення.
+                    </p>
+                </div>
+            </section>
+
+            <section>
+                <div class="about-section-header">Місія</div>
+                <div class="about-section-content">
+                    <p>
+                        Робити магію кіно доступною, створюючи ідеальні умови для того, щоб глядачі могли повністю зануритися в історію.
+                    </p>
+                </div>
+            </section>
+
+            <section>
+                <div class="about-section-header">Цінності</div>
+                <ul class="values-list">
+                    <li class="value-item"><strong>Якість</strong> <span>Безкомпромісне зображення та звук</span></li>
+                    <li class="value-item"><strong>Комфорт</strong> <span>Найзручніші крісла в місті</span></li>
+                    <li class="value-item"><strong>Інновації</strong> <span>Технології майбутнього</span></li>
+                    <li class="value-item"><strong>Сервіс</strong> <span>Турбота про кожного гостя</span></li>
+                </ul>
+            </section>
+        </div>
+    </div>
+</main>
+
+<script src="{% static 'js/cinema_dust.js' %}"></script>
+{% endblock %}

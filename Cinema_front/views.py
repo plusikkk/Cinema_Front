@@ -36,4 +36,5 @@ def activation(request):
     return render(request, 'activation.html')
 
 
-
+def about_us(request):
+    return render(request, 'about_us.html')
