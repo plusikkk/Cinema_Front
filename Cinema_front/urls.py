@@ -11,11 +11,12 @@ urlpatterns = [
     path('movies/coming-soon/', views.movies_coming_soon, name='movies_coming_soon'),
     path('movie/<int:pk>/', views.movie_details, name='movie_details'),
     path('cinemas/', views.cinemas, name='cinemas'),
+    path('cinema/<int:pk>/', views.cinema_details, name='cinema_details'),
     path('login/', views.login, name='login'),
     path('register/', views.register, name='register'),
     path('activation/<uidb64>/<token>/', views.activation, name='activation_account' ),
-    path('about-us/', views.about_us, name='about_us'),
     path('verify/', views.activation, name='activation' ),
+    path('about-us/', views.about_us, name='about_us'),
 ]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 

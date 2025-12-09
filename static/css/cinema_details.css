@@ -1,0 +1,495 @@
+:root {
+    --bg-dark: #0f0f10;
+    --panel-bg: #1f1f23;
+    --accent-pink: #ff3c8e;
+    --accent-purple: #8e2de2;
+    --text-muted: rgba(255, 255, 255, 0.6);
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --border-light: rgba(255, 255, 255, 0.1);
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ЗАГАЛЬНИЙ КОНТЕЙНЕР */
+.cinema-details-container {
+    max-width: 1400px;
+    margin: 40px auto 120px auto;
+    padding: 0 30px;
+    flex: 1;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 30px;
+    transition: all 0.3s ease;
+    padding: 10px 0;
+    width: fit-content;
+}
+
+.back-link i {
+    font-size: 0.9rem;
+    transition: transform 0.3s ease;
+}
+
+.back-link:hover {
+    color: var(--accent-pink);
+    text-shadow: 0 0 10px rgba(255, 60, 142, 0.4);
+}
+
+.back-link:hover i {
+    transform: translateX(-5px);
+}
+
+/* ПРОФІЛЬ КІНОТЕАТРУ */
+.cinema-profile-section {
+    display: grid;
+    grid-template-columns: 500px 1fr;
+    gap: 60px;
+    margin-bottom: 80px;
+    align-items: stretch;
+}
+
+.cinema-poster-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+    border-radius: 20px;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.cinema-poster-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: #121214;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+}
+
+.cinema-info-content {
+    display: flex;
+    flex-direction: column;
+    padding-top: 5px;
+    justify-content: flex-start;
+    gap: 30px;
+}
+
+.cinema-header-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.city-pill {
+    background: rgba(255, 60, 142, 0.1);
+    color: var(--accent-pink);
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    border: 1px solid rgba(255, 60, 142, 0.25);
+    box-shadow: 0 0 15px rgba(255, 60, 142, 0.1);
+}
+
+.cinema-main-title {
+    margin: 0;
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, #ffffff 0%, #a0a0a0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.address-glass-bar {
+    display: flex;
+    align-items: center;
+    background: var(--glass-bg);
+    border: 1px solid var(--border-light);
+    border-radius: 18px;
+    padding: 16px 24px;
+    gap: 20px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.address-glass-bar:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.addr-icon-box {
+    width: 42px;
+    height: 42px;
+    background: #1a1a1e;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-pink);
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.addr-text-group {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.addr-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+}
+
+.addr-value {
+    font-size: 1.1rem;
+    color: #fff;
+    font-weight: 500;
+}
+
+.map-action-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: var(--accent-pink);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(255, 60, 142, 0.15);
+}
+
+.map-action-btn:hover {
+    background: #ff5da8;
+    box-shadow: 0 6px 15px rgba(255, 60, 142, 0.3);
+}
+
+.info-body-block {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.badges-modern-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.feature-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50px;
+    font-size: 0.85rem;
+    color: #e0e0e0;
+    transition: all 0.3s;
+    cursor: default;
+    font-weight: 500;
+}
+
+.feature-badge i {
+    color: var(--accent-pink);
+    font-size: 0.9rem;
+}
+
+.feature-badge:hover {
+    border-color: var(--accent-pink);
+    background: rgba(255, 60, 142, 0.1);
+    color: #fff;
+    box-shadow: 0 0 15px rgba(255, 60, 142, 0.15);
+}
+
+.description-box {
+    padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.description-box p {
+    color: var(--text-muted);
+    line-height: 1.7;
+    font-size: 1rem;
+    margin: 0;
+    max-width: 95%;
+}
+
+.content-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1) 50%, transparent);
+    margin: 0 auto 60px auto;
+    width: 100%;
+}
+
+/* СЕКЦІЯ ФІЛЬМІВ */
+.movies-section {
+    width: 100%;
+    padding-bottom: 40px;
+}
+
+.section-heading {
+    font-size: 2rem;
+    margin-bottom: 25px;
+    color: #fff;
+    border-left: 4px solid var(--accent-pink);
+    padding-left: 20px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.cinema-movies-carousel {
+    display: flex;
+    overflow-x: auto;
+    gap: 24px;
+    padding: 10px 0 20px 0;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    scroll-snap-type: x mandatory;
+    align-items: flex-start;
+}
+
+.cinema-movies-carousel::-webkit-scrollbar {
+    height: 6px;
+}
+.cinema-movies-carousel::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+}
+.cinema-movies-carousel::-webkit-scrollbar-thumb {
+    background: var(--accent-pink);
+    border-radius: 3px;
+    cursor: pointer;
+}
+.cinema-movies-carousel::-webkit-scrollbar-thumb:hover {
+    background: #ff5da8;
+}
+
+/* КАРТКА ФІЛЬМУ */
+.cinema-movie-card {
+    flex: 0 0 auto;
+    width: 240px;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    background: var(--panel-bg);
+    border-radius: 16px;
+    overflow: hidden;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 1px solid var(--border-light);
+    position: relative;
+}
+
+.cinema-movie-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+.cmc-poster {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    overflow: hidden;
+    background: #151518;
+}
+
+.cmc-poster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.cinema-movie-card:hover .cmc-poster img {
+    transform: scale(1.08);
+}
+
+.cmc-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    backdrop-filter: blur(3px);
+}
+
+.cinema-movie-card:hover .cmc-overlay { opacity: 1; }
+
+.btn-details-icon {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--accent-pink);
+    background: rgba(255, 60, 142, 0.2);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-weight: 600;
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+}
+
+.cinema-movie-card:hover .btn-details-icon {
+    transform: translateY(0);
+}
+
+.cmc-info {
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    height: 120px;
+    min-height: 120px;
+    gap: 6px;
+}
+
+.cmc-title {
+    margin: 0;
+    font-size: 1.05rem;
+    color: #fff;
+    font-weight: 700;
+    line-height: 1.4;
+    transition: color 0.3s;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.cinema-movie-card:hover .cmc-title {
+    color: var(--accent-pink);
+}
+
+.cmc-meta {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.cmc-age {
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* ПЛІВКА */
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 60px;
+    z-index: -1;
+    background-image:
+        linear-gradient(var(--bg) 50%, transparent 50%),
+        linear-gradient(90deg, transparent 20%, rgba(255, 255, 255, 0.05) 20%, rgba(255, 255, 255, 0.05) 80%, transparent 80%);
+    background-size: 100% 40px, 100% 100%;
+}
+
+body::before {
+    left: 20px;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+body::after {
+    right: 20px;
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* АДАПТИВНІСТЬ */
+@media (max-width: 1200px) {
+    .cinema-profile-section {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .cinema-poster-wrapper {
+        aspect-ratio: 16/9;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .cinema-main-title {
+        font-size: 2.8rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .cinema-details-container {
+        margin-top: 30px;
+        margin-bottom: 60px;
+    }
+
+    .cinema-poster-wrapper {
+        aspect-ratio: 3/2;
+    }
+
+    .cinema-main-title {
+        font-size: 2rem;
+    }
+
+    .address-glass-bar {
+        padding: 15px;
+        flex-wrap: wrap;
+    }
+
+    .map-action-btn {
+        margin-left: auto;
+    }
+
+    .cinema-movie-card {
+        width: 180px;
+    }
+
+    .cmc-title {
+        font-size: 1rem;
+    }
+}
+
+
