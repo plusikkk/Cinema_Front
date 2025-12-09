@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+    <div class="auth-container">
+        <h2>Введіть код підтвердження</h2>
+        <p>Ми надіслали код на вашу пошту.</p>
+
+        <form id="verifyForm" onsubmit="return false;">
+            <div class="form-group">
+                <input type="text" id="code" placeholder="123456" maxlength="6" style="text-align: center; letter-spacing: 5px; font-size: 24px;" required>
+            </div>
+            <button type="button" id="submitBtn">Підтвердити</button>
+        </form>
+
+        <div style="margin-top: 20px;">
+            <button type="button" id="resendBtn" style="background: transparent; border: 1px solid var(--pink); color: var(--pink); font-size: 0.9rem; padding: 10px; width: auto; margin-top: 0;">
+                Надіслати код повторно
+            </button>
+            <p id="timer" style="display: none; color: #aaa; margin-top: 10px; font-size: 0.9rem;">
+                Можна повторити через <span id="timeLeft">60</span> с
+            </p>
+        </div>
+        <div id="error-message" style="color: red; display: none; margin-top: 10px;"></div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+    const VERIFY_CONFIG = {
+        apiUrl: "http://127.0.0.1:8001/api/auth/verify/",
+        resendUrl: "http://127.0.0.1:8001/api/auth/resend/",
+        homeUrl: "{% url 'main_page' %}",
+        registerUrl: "{% url 'register' %}"
+    };
+</script>
+<script src="{% static 'js/activation.js' %}"></script>
+{% endblock %}

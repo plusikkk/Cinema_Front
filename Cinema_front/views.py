@@ -32,4 +32,8 @@ def login(request):
 def register(request):
     return render(request, 'register.html')
 
+def activation(request):
+    return render(request, 'activation.html')
+
+
 
