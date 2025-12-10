@@ -1,0 +1,129 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}Мій кабінет | MultiFlex{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="profile-wrapper">
+    <div class="container">
+        <div class="profile-header">
+            <h1>Особистий кабінет</h1>
+            <p class="welcome-text">Вітаємо, <span id="header-username" class="highlight">...</span>!</p>
+        </div>
+
+        <div class="profile-grid">
+            <aside class="profile-sidebar">
+                <div class="user-card glass-panel">
+                    <div class="avatar-circle">
+                        <i class="fa-solid fa-user-astronaut"></i>
+                    </div>
+                    <h2 id="card-fullname">Завантаження...</h2>
+                    <p id="card-email" class="user-email">...</p>
+
+                    <div class="bonus-card">
+                        <div class="bonus-title">Мій баланс MultiBonus</div>
+                        <div class="bonus-amount">
+                            <i class="fa-solid fa-coins"></i> <span id="bonus-balance">0</span>
+                        </div>
+                    </div>
+
+                    <button id="logout-btn-sidebar" class="btn-logout">
+                        <i class="fa-solid fa-right-from-bracket"></i> Вийти
+                    </button>
+                </div>
+            </aside>
+
+            <main class="profile-content glass-panel">
+                <div class="tabs-nav">
+                    <button class="tab-btn active" data-tab="tickets">
+                        <i class="fa-solid fa-ticket"></i> Мої квитки
+                    </button>
+                    <button class="tab-btn" data-tab="settings">
+                        <i class="fa-solid fa-gear"></i> Налаштування
+                    </button>
+                </div>
+
+                <div id="tickets" class="tab-content active">
+                    <div class="empty-state">
+                        <i class="fa-solid fa-film"></i>
+                        <p>Історія переглядів поки що пуста</p>
+                        <a href="{% url 'movies_now_playing' %}" class="btn-action">Обрати фільм</a>
+                    </div>
+                </div>
+
+                <div id="settings" class="tab-content">
+                    <form id="settings-form">
+                        <p class="section-title">Особисті дані</p>
+                        <div class="form-row">
+                            <div class="form-group half-width">
+                                <label>Ім'я</label>
+                                <input type="text" id="edit-first-name" class="input-dark" placeholder="Ваше ім'я">
+                            </div>
+                            <div class="form-group half-width">
+                                <label>Прізвище</label>
+                                <input type="text" id="edit-last-name" class="input-dark" placeholder="Ваше прізвище">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group half-width">
+                                <label>Дата народження</label>
+                                <input type="date" id="edit-dob" class="input-dark">
+                            </div>
+                            <div class="form-group half-width">
+                                <label>Стать</label>
+                                <select id="edit-gender" class="input-dark">
+                                    <option value="">Не обрано</option>
+                                    <option value="M">Чоловіча</option>
+                                    <option value="F">Жіноча</option>
+                                    <option value="O">Інше</option>
+                                    <option value="N">Не бажаю вказувати</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <hr class="divider">
+
+                        <p class="section-title">Дані входу</p>
+                        <div class="form-row">
+                            <div class="form-group half-width">
+                                <label>Логін (не змінюється)</label>
+                                <input type="text" id="edit-username" disabled class="input-dark">
+                            </div>
+                            <div class="form-group half-width">
+                                <label>Email</label>
+                                <input type="email" id="edit-email" class="input-dark" required>
+                            </div>
+                        </div>
+
+                        <p class="section-title">Зміна паролю (необов'язково)</p>
+                        <div class="form-row">
+                            <div class="form-group half-width">
+                                <label>Новий пароль</label>
+                                <input type="password" id="edit-password" placeholder="********" class="input-dark">
+                            </div>
+                            <div class="form-group half-width">
+                                <label>Повторіть пароль</label>
+                                <input type="password" id="edit-password-check" placeholder="********" class="input-dark">
+                            </div>
+                        </div>
+
+                        <div id="profile-msg" style="display:none; margin-bottom: 15px; font-weight: 600;"></div>
+
+                        <button type="submit" class="btn-save">Зберегти зміни</button>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/profile.js' %}"></script>
+{% endblock %}
+
+
+

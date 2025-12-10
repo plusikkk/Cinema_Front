@@ -3,7 +3,6 @@ from django.shortcuts import render
 def main_page(request):
     return render(request, 'main_page.html')
 
-
 def movies_now_playing(request):
     context = {
         'page_title': 'Зараз у кіно',
@@ -18,10 +17,8 @@ def movies_coming_soon(request):
     }
     return render(request, 'all_movies.html', context)
 
-
 def cinemas(request):
     return render(request, 'cinemas.html')
-
 
 def movie_details(request, pk):
     return render(request, 'film_details.html')
@@ -40,5 +37,8 @@ def about_us(request):
 
 def cinema_details(request, pk):
     return render(request, 'cinema_details.html')
+
+def profile(request):
+    return render(request, 'profile.html')
 
 
