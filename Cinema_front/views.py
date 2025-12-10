@@ -35,6 +35,10 @@ def register(request):
 def activation(request):
     return render(request, 'activation.html')
 
-
 def about_us(request):
     return render(request, 'about_us.html')
+
+def cinema_details(request, pk):
+    return render(request, 'cinema_details.html')
+
+

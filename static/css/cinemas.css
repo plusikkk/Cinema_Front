@@ -23,7 +23,7 @@
     letter-spacing: 0.02em;
 }
 
-/* Фільтри */
+/* ПОШУК ТА ФІЛЬТРИ */
 .controls-panel {
     display: flex;
     gap: 20px;
@@ -32,6 +32,7 @@
     align-items: center;
 }
 
+/* Поле пошуку */
 .search-input-wrapper {
     flex: 1;
     min-width: 280px;
@@ -62,27 +63,154 @@
     border-color: var(--pink);
 }
 
-.city-filters {
+/* Випадаючий список міст */
+.city-dropdown-wrapper {
+    position: relative;
+    min-width: 200px;
+}
+
+.city-dropdown-btn {
     display: flex;
-    gap: 10px;
-}
-
-.filter-btn {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--accent);
-    padding: 10px 18px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.2s ease;
-}
-
-.filter-btn:hover, .filter-btn.active {
-    background: var(--pink);
-    border-color: var(--pink);
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 12px 20px;
+    background: var(--panel, #1f1f23);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
     color: #fff;
-    box-shadow: 0 4px 15px rgba(255, 60, 142, 0.3);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.city-dropdown-btn:hover, .city-dropdown-btn.active {
+    border-color: var(--pink, #ff3c8e);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.city-dropdown-btn i {
+    font-size: 0.8rem;
+    margin-left: 10px;
+    transition: transform 0.3s;
+}
+
+.city-dropdown-list.show ~ .city-dropdown-btn i,
+.city-dropdown-wrapper.open .city-dropdown-btn i {
+    transform: rotate(180deg);
+}
+
+/* Список опцій */
+.city-dropdown-list {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: 100%;
+    min-width: 220px;
+    background: #18181b;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    z-index: 100;
+    overflow: hidden;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.city-dropdown-list.active {
+    display: block;
+    animation: fadeInDrop 0.2s ease-out;
+}
+
+.city-option {
+    padding: 12px 20px;
+    color: var(--muted, #a0a0a0);
+    cursor: pointer;
+    transition: all 0.2s;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.city-option:last-child {
+    border-bottom: none;
+}
+
+.city-option:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    padding-left: 24px;
+}
+
+.city-option.selected {
+    color: var(--pink, #ff3c8e);
+    font-weight: 700;
+    background: rgba(255, 60, 142, 0.05);
+}
+
+@keyframes fadeInDrop {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Автозаповнення пошуку */
+.search-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #1f1f23;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-top: none;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    z-index: 1000;
+    display: none;
+    max-height: 300px;
+    overflow-y: auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.search-suggestions.active {
+    display: block;
+}
+
+.search-input-wrapper:has(.search-suggestions.active) .cinema-search-input {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-color: transparent;
+}
+
+.suggestion-item {
+    padding: 12px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.2s;
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.suggestion-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.suggestion-name {
+    font-weight: 600;
+    color: #fff;
+    font-size: 0.95rem;
+}
+
+.suggestion-city {
+    font-size: 0.8rem;
+    color: var(--muted, #a0a0a0);
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2px 8px;
+    border-radius: 4px;
 }
 
 /* МАПА */
@@ -108,7 +236,7 @@
     gap: 24px;
 }
 
-/* Картка */
+/* КАРТКИ */
 .cinema-card {
     display: flex;
     background-color: var(--panel);
@@ -127,7 +255,6 @@
     border-color: rgba(255, 255, 255, 0.2);
 }
 
-/* Ліва колонка - ФОТО */
 .card-image {
     width: 320px;
     flex-shrink: 0;
@@ -148,7 +275,6 @@
     opacity: 1;
 }
 
-/* Центральна колонка - ІНФО */
 .card-content {
     flex-grow: 1;
     padding: 24px 30px;
@@ -168,7 +294,6 @@
     gap: 12px;
 }
 
-/* Жовтий бейдж міста */
 .city-badge {
     background-color: #fdd835;
     color: #121214;
@@ -195,7 +320,6 @@
     color: var(--pink);
 }
 
-/* Кнопка "Дивитись розклад" */
 .btn-details {
     display: inline-flex;
     align-items: center;
@@ -220,7 +344,6 @@
     box-shadow: 0 6px 20px rgba(255, 60, 142, 0.4);
 }
 
-/* Права колонка - ЗНАЧКИ */
 .card-badges-container {
     width: 280px;
     padding: 24px;
@@ -233,7 +356,6 @@
     gap: 8px;
 }
 
-/* Стиль бейджа */
 .badge-item {
     background: transparent;
     color: var(--muted);
@@ -251,7 +373,7 @@
     color: #fff;
 }
 
-/* Повідомлення "Нічого не знайдено" */
+/* Повідомлення про порожній пошук */
 .no-results {
     text-align: center;
     padding: 40px;
@@ -259,7 +381,7 @@
     font-size: 1.2rem;
 }
 
-/* Плівка */
+/* ПЛІВКА */
 body::before,
 body::after {
     content: "";
@@ -274,31 +396,32 @@ body::after {
     background-size: 100% 40px, 100% 100%;
 }
 
-/* Ліва стрічка */
 body::before {
     left: 20px;
     border-right: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Права стрічка */
 body::after {
     right: 20px;
     border-left: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* АДАПТАЦІЯ */
+/* АДАПТИВНІСТЬ  */
 @media (max-width: 1024px) {
     .cinemas-wrapper {
         padding: 20px;
     }
+    
     .cinema-card {
         flex-direction: column;
         height: auto;
     }
+    
     .card-image {
         width: 100%;
         height: 200px;
     }
+    
     .card-badges-container {
         width: 100%;
         border-left: none;
@@ -307,20 +430,29 @@ body::after {
         background: transparent;
         padding-top: 12px;
     }
+    
     .controls-panel {
         flex-direction: column;
         align-items: flex-start;
     }
+    
     .search-input-wrapper {
         width: 100%;
     }
-    .city-filters {
+    
+    .city-dropdown-wrapper {
         width: 100%;
-        overflow-x: auto;
-        padding-bottom: 5px;
+        order: -1;
+        margin-bottom: 15px;
     }
 }
 
-
+@media (max-width: 768px) {
+    .city-dropdown-wrapper {
+        width: 100%;
+        order: -1;
+        margin-bottom: 15px;
+    }
+}
 
 

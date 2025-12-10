@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/cinema_details.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<div class="cinema-details-container">
+
+    <a href="{% url 'cinemas' %}" class="back-link">
+        <i class="fas fa-arrow-left"></i> До всіх кінотеатрів
+    </a>
+
+    <div class="cinema-profile-section">
+
+        <div class="cinema-poster-wrapper">
+            <img id="cinemaMainImage" src="" alt="Cinema Photo" onerror="this.src='/static/img/cinema-placeholder.jpg'">
+        </div>
+
+        <div class="cinema-info-content">
+
+            <div class="cinema-header-block">
+                <span id="cinemaCity" class="city-pill">...</span>
+                <h1 id="cinemaTitle" class="cinema-main-title">Завантаження...</h1>
+            </div>
+
+            <div class="address-glass-bar">
+                <div class="addr-icon-box">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div class="addr-text-group">
+                    <span class="addr-label">Локація</span>
+                    <span id="cinemaAddress" class="addr-value">...</span>
+                </div>
+                <a id="googleMapBtn" href="#" target="_blank" class="map-action-btn">
+                    <i class="fas fa-location-arrow"></i>
+                </a>
+            </div>
+
+            <div class="info-body-block">
+                <div id="cinemaBadges" class="badges-modern-grid">
+                    </div>
+
+                <div class="description-box">
+                    <p id="cinemaDescription">...</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="content-divider"></div>
+
+    <div class="movies-section">
+        <h2 class="section-heading">Зараз у прокаті</h2>
+
+        <div id="cinemaMoviesGrid" class="cinema-movies-carousel">
+            <div class="loading-indicator">
+                <i class="fas fa-spinner fa-spin fa-2x"></i>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="{% static 'js/cinema_details.js' %}"></script>
+{% endblock %}
+
+
+
