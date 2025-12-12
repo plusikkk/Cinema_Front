@@ -1,123 +1,220 @@
 {% extends "layout.html" %}
 {% load static %}
 
-{% block title %}Мій кабінет | MultiFlex{% endblock %}
+{% block title %}Мій Профіль | MultiFlex{% endblock %}
 
 {% block head %}
     <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/uk.js"></script>
 {% endblock %}
 
 {% block content %}
+<div class="ambient-bg"></div>
+
 <div class="profile-wrapper">
     <div class="container">
-        <div class="profile-header">
-            <h1>Особистий кабінет</h1>
-            <p class="welcome-text">Вітаємо, <span id="header-username" class="highlight">...</span>!</p>
-        </div>
 
-        <div class="profile-grid">
-            <aside class="profile-sidebar">
-                <div class="user-card glass-panel">
-                    <div class="avatar-circle">
+        <div class="hero-header new-banner">
+            <div class="hero-left">
+                <div class="new-avatar-wrapper">
+                    <div class="gradient-circle">
                         <i class="fa-solid fa-user-astronaut"></i>
                     </div>
-                    <h2 id="card-fullname">Завантаження...</h2>
-                    <p id="card-email" class="user-email">...</p>
+                    <div class="status-dot"></div>
+                </div>
 
-                    <div class="bonus-card">
-                        <div class="bonus-title">Мій баланс MultiBonus</div>
-                        <div class="bonus-amount">
-                            <i class="fa-solid fa-coins"></i> <span id="bonus-balance">0</span>
+                <div class="user-info-stack">
+                    <span class="welcome-sup">Вітаємо у кіносвіті</span>
+                    <h1 id="header-username" class="user-name">...</h1>
+                    <div class="badges-row">
+                        <span class="badge-tag tag-member">Member</span>
+                        <span class="badge-tag tag-verified">Verified</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="film-bg-decor">
+                <i class="fa-solid fa-film"></i>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+
+            <aside class="sidebar-column">
+
+                <div class="sidebar-card account-card">
+                    <div class="card-title">Обліковий запис</div>
+
+                    <div class="account-row">
+                        <div class="acc-icon"><i class="fa-regular fa-id-card"></i></div>
+                        <div class="acc-info">
+                            <h3 id="sidebar-username">...</h3>
+                            <span class="acc-label">Користувач</span>
                         </div>
                     </div>
 
-                    <button id="logout-btn-sidebar" class="btn-logout">
-                        <i class="fa-solid fa-right-from-bracket"></i> Вийти
-                    </button>
+                    <div class="divider-dark"></div>
+
+                    <div class="account-row">
+                        <div class="acc-icon"><i class="fa-solid fa-at"></i></div>
+                        <div class="acc-info">
+                            <h3 id="sidebar-email" class="email-truncate">...</h3>
+                            <span class="acc-label">Email</span>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="sidebar-card bonus-card">
+                    <div class="card-title text-gold">MultiBonus</div>
+                    <div class="bonus-display">
+                        <i class="fa-solid fa-coins"></i>
+                        <span id="bonus-balance">0</span>
+                    </div>
+                    <p class="bonus-desc">Використовуйте бонуси для нових вражень</p>
+                </div>
+
+                <button id="logout-btn-sidebar" class="btn-logout">
+                    <span>Вийти з акаунту</span>
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                </button>
             </aside>
 
-            <main class="profile-content glass-panel">
-                <div class="tabs-nav">
-                    <button class="tab-btn active" data-tab="tickets">
-                        <i class="fa-solid fa-ticket"></i> Мої квитки
-                    </button>
-                    <button class="tab-btn" data-tab="settings">
-                        <i class="fa-solid fa-gear"></i> Налаштування
-                    </button>
-                </div>
+            <main class="content-column">
+                <div class="content-panel glass-panel">
+                    <div class="tabs-nav">
+                        <button class="tab-link active" data-tab="tickets">
+                            <i class="fa-solid fa-ticket"></i> Мої квитки
+                        </button>
+                        <button class="tab-link" data-tab="settings">
+                            <i class="fa-solid fa-gear"></i> Налаштування
+                        </button>
+                        <div class="tab-line"></div>
+                    </div>
 
-                <div id="tickets" class="tab-content active">
-                    <div class="empty-state">
-                        <i class="fa-solid fa-film"></i>
-                        <p>Історія переглядів поки що пуста</p>
-                        <a href="{% url 'movies_now_playing' %}" class="btn-action">Обрати фільм</a>
+                    <div id="tickets" class="tab-body active">
+                        <div class="empty-state">
+                            <div class="state-icon">
+                                <i class="fa-solid fa-clapperboard"></i>
+                            </div>
+                            <h3>Історія порожня</h3>
+                            <p>Ви ще не придбали квитків. Оберіть фільм вже зараз!</p>
+                            <a href="{% url 'movies_now_playing' %}" class="btn-action">
+                                Перейти до афіші
+                            </a>
+                        </div>
+                    </div>
+
+                    <div id="settings" class="tab-body">
+                        <form id="settings-form" class="settings-layout" novalidate>
+                            <div class="form-group-block">
+                                <h4 class="form-title">Персональні дані</h4>
+                                <div class="grid-row">
+                                    <div class="input-container">
+                                        <label>Ім'я</label>
+                                        <div class="input-wrapper">
+                                            <input type="text" id="edit-first-name" placeholder="Ваше ім'я">
+                                            <i class="fa-regular fa-user"></i>
+                                        </div>
+                                    </div>
+                                    <div class="input-container">
+                                        <label>Прізвище</label>
+                                        <div class="input-wrapper">
+                                            <input type="text" id="edit-last-name" placeholder="Ваше прізвище">
+                                            <i class="fa-regular fa-user"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid-row">
+                                    <div class="input-container">
+                                        <label>Дата народження</label>
+                                        <div class="input-wrapper">
+                                            <input type="text" id="edit-dob" placeholder="Оберіть дату">
+                                            <i class="fa-regular fa-calendar"></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="input-container">
+                                        <label>Стать</label>
+                                        <div class="input-wrapper select-wrapper custom-select-container">
+                                            <select id="edit-gender">
+                                                <option value="">Не обрано</option>
+                                                <option value="M">Чоловіча</option>
+                                                <option value="F">Жіноча</option>
+                                                <option value="O">Інше</option>
+                                                <option value="N">Не бажаю вказувати</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="divider-h"></div>
+
+                            <div class="form-group-block">
+                                <h4 class="form-title">Безпека</h4>
+                                <div class="grid-row">
+                                    <div class="input-container disabled-cont">
+                                        <label>Логін</label>
+                                        <div class="input-wrapper">
+                                            <input type="text" id="edit-username" disabled>
+                                            <i class="fa-solid fa-lock"></i>
+                                        </div>
+                                    </div>
+                                    <div class="input-container">
+                                        <label>Email</label>
+                                        <div class="input-wrapper">
+                                            <input type="email" id="edit-email" required>
+                                            <i class="fa-solid fa-envelope"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="password-area">
+                                    <p class="area-label">Зміна паролю</p>
+                                    <div class="grid-row">
+                                        <div class="input-container">
+                                            <div class="input-wrapper">
+                                                <input type="password" id="edit-password" placeholder="Новий пароль">
+                                                <i class="fa-solid fa-key"></i>
+                                            </div>
+                                        </div>
+                                        <div class="input-container">
+                                            <div class="input-wrapper">
+                                                <input type="password" id="edit-password-check" placeholder="Повторіть пароль">
+                                                <i class="fa-solid fa-check-double"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="profile-msg" class="message-box"></div>
+
+                            <div class="form-footer">
+                                <button type="submit" class="btn-save">Зберегти зміни</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-
-                <div id="settings" class="tab-content">
-                    <form id="settings-form">
-                        <p class="section-title">Особисті дані</p>
-                        <div class="form-row">
-                            <div class="form-group half-width">
-                                <label>Ім'я</label>
-                                <input type="text" id="edit-first-name" class="input-dark" placeholder="Ваше ім'я">
-                            </div>
-                            <div class="form-group half-width">
-                                <label>Прізвище</label>
-                                <input type="text" id="edit-last-name" class="input-dark" placeholder="Ваше прізвище">
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group half-width">
-                                <label>Дата народження</label>
-                                <input type="date" id="edit-dob" class="input-dark">
-                            </div>
-                            <div class="form-group half-width">
-                                <label>Стать</label>
-                                <select id="edit-gender" class="input-dark">
-                                    <option value="">Не обрано</option>
-                                    <option value="M">Чоловіча</option>
-                                    <option value="F">Жіноча</option>
-                                    <option value="O">Інше</option>
-                                    <option value="N">Не бажаю вказувати</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <hr class="divider">
-
-                        <p class="section-title">Дані входу</p>
-                        <div class="form-row">
-                            <div class="form-group half-width">
-                                <label>Логін (не змінюється)</label>
-                                <input type="text" id="edit-username" disabled class="input-dark">
-                            </div>
-                            <div class="form-group half-width">
-                                <label>Email</label>
-                                <input type="email" id="edit-email" class="input-dark" required>
-                            </div>
-                        </div>
-
-                        <p class="section-title">Зміна паролю (необов'язково)</p>
-                        <div class="form-row">
-                            <div class="form-group half-width">
-                                <label>Новий пароль</label>
-                                <input type="password" id="edit-password" placeholder="********" class="input-dark">
-                            </div>
-                            <div class="form-group half-width">
-                                <label>Повторіть пароль</label>
-                                <input type="password" id="edit-password-check" placeholder="********" class="input-dark">
-                            </div>
-                        </div>
-
-                        <div id="profile-msg" style="display:none; margin-bottom: 15px; font-weight: 600;"></div>
-
-                        <button type="submit" class="btn-save">Зберегти зміни</button>
-                    </form>
-                </div>
             </main>
+        </div>
+    </div>
+</div>
+
+<div id="logout-modal" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-icon">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </div>
+        <h3>Вихід з акаунту</h3>
+        <p>Ви впевнені, що бажаєте вийти? Вам доведеться вводити пароль знову.</p>
+        <div class="modal-buttons">
+            <button id="btn-cancel-logout" class="modal-btn btn-grey">Залишитись</button>
+            <button id="btn-confirm-logout" class="modal-btn btn-pink">Вийти</button>
         </div>
     </div>
 </div>
