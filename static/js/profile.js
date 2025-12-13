@@ -81,6 +81,7 @@ document.addEventListener("DOMContentLoaded", function() {
     initCustomSelect();
 
 
+    // КАЛЕНДАР
     const dateInput = document.getElementById("edit-dob");
     if (dateInput) {
         flatpickr(dateInput, {
@@ -93,8 +94,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-
-    // ЗАВАНТАЖЕННЯ ДАНИХ
     fetch(API_PROFILE_URL, {
         method: "GET",
         headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" }
@@ -160,7 +159,6 @@ document.addEventListener("DOMContentLoaded", function() {
             const targetContent = document.getElementById(targetId);
             if (targetContent) targetContent.classList.add('active');
 
-            // АНІМАЦІЯ
             if (targetId === 'settings') {
                 const icon = tab.querySelector('i');
                 if (icon) {
@@ -173,11 +171,9 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 
-    // ЗБЕРЕЖЕННЯ
     const settingsForm = document.getElementById("settings-form");
     if (settingsForm) {
 
-        // Додавання блоків для помилок
         const inputs = settingsForm.querySelectorAll("input[required], select[required]");
         inputs.forEach(input => {
             const wrapper = input.closest(".input-wrapper");
@@ -225,11 +221,23 @@ document.addEventListener("DOMContentLoaded", function() {
             payload.profile.gender = (newGender && newGender !== "") ? newGender : null;
             payload.profile.birth_date = (newDob) ? newDob : null;
 
+            // ПЕРЕВІРКА ПАРОЛЮ
             if (newPass) {
                 if (newPass !== newPassCheck) {
                     showMsg("Паролі не співпадають!", "#ff4d4d");
                     return;
                 }
+
+                if (newPass.length < 8) {
+                    showMsg("Пароль має містити мінімум 8 символів!", "#ff4d4d");
+                    return;
+                }
+
+                if (/^\d+$/.test(newPass)) {
+                     showMsg("Пароль не може складатися лише з цифр!", "#ff4d4d");
+                     return;
+                }
+
                 payload.password = newPass;
             }
 
@@ -247,7 +255,17 @@ document.addEventListener("DOMContentLoaded", function() {
                     document.getElementById("edit-password-check").value = "";
                 } else {
                     let errorText = "Помилка оновлення";
-                    if (data.email) errorText = `Email: ${data.email[0]}`;
+
+                    if (data.email) {
+                        errorText = `Email: ${data.email[0]}`;
+                    }
+                    else if (data.password) {
+                        errorText = `Пароль: ${data.password[0]}`;
+                    }
+                    else if (data.detail) {
+                        errorText = data.detail;
+                    }
+
                     showMsg(errorText, "#ff4d4d");
                 }
             })
