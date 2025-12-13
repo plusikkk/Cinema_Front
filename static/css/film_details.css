@@ -92,17 +92,6 @@
     transition: all 0.2s ease;
 }
 
-.btn-primary {
-    background: var(--pink);
-    color: #fff;
-    border: none;
-    box-shadow: 0 4px 15px rgba(255, 60, 142, 0.3);
-}
-.btn-primary:hover {
-    background: #ff5da8;
-    transform: translateY(-2px);
-}
-
 .btn-outline {
     background: transparent;
     border: 1px solid rgba(255, 255, 255, 0.2);

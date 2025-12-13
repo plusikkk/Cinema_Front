@@ -2,64 +2,235 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
-    color: white;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    color: var(--accent);
+    min-height: 80vh;
+    box-sizing: border-box;
 }
 
-/* ЕКРАН */
 .screen-reference {
-    width: 80%;
-    height: 15px;
-    background: #555;
-    margin-bottom: 30px;
-    border-radius: 50%;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-    text-align: center;
-    font-size: 0.8rem;
-    color: #aaa;
-    line-height: 15px;
+    background: linear-gradient(to bottom, #ffffff, rgba(255, 255, 255, 0));
+    height: 60px;
+    width: 70%;
+    max-width: 700px;
+    margin-bottom: 60px;
+
+    transform: perspective(2000px) rotateX(-15deg) scale(0.9);
+    box-shadow: 0 50px 70px -10px rgba(255, 255, 255, 0.15); /* Світло від екрану вниз */
+
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-weight: 800;
+    letter-spacing: 10px;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    opacity: 0.8;
+    text-shadow: 0 0 10px rgba(255,255,255,0.5);
 }
 
-/* МІСЦЯ */
-#seats-container {
+.seats-area {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-bottom: 30px;
+    gap: 14px;
+    margin-bottom: 50px;
+    overflow-x: auto;
+    padding: 20px;
+    width: 100%;
+    align-items: center;
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--pink) var(--panel);
 }
 
-/* РЯД */
 .row {
     display: flex;
+    gap: 10px;
     justify-content: center;
-    gap: 8px;
+    min-width: max-content;
 }
 
-/* КРІСЛО */
 .seat {
-    width: 30px;
-    height: 30px;
-    background-color: #444451;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    width: 36px;
+    height: 36px;
+    background-color: var(--panel);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+
     cursor: pointer;
-    transition: 0.2s ease;
+    transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.3);
 }
 
-.seat:hover:not(.occupied) {
-    background-color: #ff3c8e;
-    transform: scale(1.1);
+.seat:not(.occupied):hover {
+    transform: scale(1.15) translateY(-2px);
+    background-color: var(--hover);
+    box-shadow: 0 8px 15px rgba(255, 255, 255, 0.1);
+    z-index: 2;
 }
 
 .seat.selected {
-    background-color: #ff3c8e;
-    box-shadow: 0 0 10px #ff3c8e;
+    background-color: var(--pink);
+    border-color: var(--pink);
+    box-shadow: 0 0 15px var(--pink);
+    transform: translateY(-2px);
 }
 
 .seat.occupied {
-    background-color: #222;
+    background-color: rgba(255, 255, 255, 0.24);
     cursor: not-allowed;
+    box-shadow: none;
     opacity: 0.5;
+    border-color: transparent;
 }
 
+.seat.occupied::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.booking-summary {
+    background: var(--panel);
+    border-radius: var(--round);
+    padding: 24px 32px;
+    box-shadow: var(--shadow);
+    width: 100%;
+    max-width: 600px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+
+    position: sticky;
+    bottom: 20px;
+    z-index: 100;
+
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+}
+
+.bonus-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.bonus-wrapper label {
+    cursor: pointer;
+    color: var(--accent);
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.bonus-wrapper input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 22px;
+    height: 22px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 6px;
+    position: relative;
+    cursor: pointer;
+    background-color: transparent;
+    transition: all 0.25s ease;
+}
+
+.bonus-wrapper input[type="checkbox"]:checked {
+    background-color: var(--pink);
+    border-color: var(--pink);
+    box-shadow: 0 0 10px rgba(214, 51, 132, 0.4);
+}
+
+.bonus-wrapper input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 1px;
+    width: 6px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.bonus-wrapper input[type="checkbox"]:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.pay-button {
+    background-color: var(--pink);
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+    letter-spacing: 0.5px;
+}
+
+.pay-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(214, 51, 132, 0.4);
+    background-color: #e64995;
+}
+
+.pay-button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.pay-button:disabled {
+    background-color: var(--hover);
+    color: rgba(255, 255, 255, 0.3);
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+@media (max-width: 600px) {
+    .booking-summary {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+        padding: 20px;
+        bottom: 10px;
+    }
+
+    .bonus-wrapper {
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+
+    .pay-button {
+        width: 100%;
+    }
+
+    .screen-reference {
+        width: 90%;
+        font-size: 1rem;
+    }
+}
 
