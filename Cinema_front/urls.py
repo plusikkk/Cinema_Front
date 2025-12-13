@@ -18,7 +18,7 @@ urlpatterns = [
     path('verify/', views.activation, name='activation' ),
     path('profile/', views.profile, name='profile'),
     path('about-us/', views.about_us, name='about_us'),
-    path('seats/', views.seats, name='seats'),
+    path('seats/<int:session_id>/', views.seats, name='seats'),
 ]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 

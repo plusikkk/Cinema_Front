@@ -41,7 +41,7 @@ def cinema_details(request, pk):
 def profile(request):
     return render(request, 'profile.html')
 
-def seats(request):
-    return render(request, 'seatsMap.html')
+def seats(request, session_id):
+    return render(request, 'seatsMap.html', {'session_id': session_id})
 
 
