@@ -1,10 +1,8 @@
 const API_TOKEN_URL = "http://127.0.0.1:8001/api/token/";
 
-// Функція для збереження токенів
 function saveTokens(data) {
     localStorage.setItem('access_token', data.access);
     localStorage.setItem('refresh_token', data.refresh);
-
     if (data.username) {
         localStorage.setItem('username', data.username);
     }
@@ -19,13 +17,42 @@ function redirectAfterLogin() {
 }
 
 $(document).ready(function() {
+
+    $("#loginForm .form-group").each(function() {
+        if ($(this).find(".error-message").length === 0) {
+            $(this).append('<div class="error-message">Заповніть це поле</div>');
+        }
+    });
+
+    $("#loginForm input").on("input", function() {
+        $(this).closest(".form-group").removeClass("error");
+        $("#error-message").slideUp();
+    });
+
     $("#loginForm").on("submit", function(e) {
         e.preventDefault();
 
-        $("#error-message").hide().text("");
+        const $errorDiv = $("#error-message");
+        const $btn = $(this).find("button[type='submit']");
+
+        let isValid = true;
+        const inputs = $(this).find("input");
+
+        inputs.each(function() {
+            if (!$(this).val().trim()) {
+                isValid = false;
+                $(this).closest(".form-group").addClass("error");
+            }
+        });
+
+        if (!isValid) return;
+
+        $errorDiv.hide().text("");
 
         const username = $("#username").val();
         const password = $("#password").val();
+
+        $btn.prop("disabled", true);
 
         $.ajax({
             url: API_TOKEN_URL,
@@ -42,15 +69,26 @@ $(document).ready(function() {
             },
             error: function(xhr) {
                 console.error("Login error", xhr);
+
+                $btn.prop("disabled", false);
+
                 let message = "Невірний логін або пароль";
 
-                if (xhr.responseJSON && xhr.responseJSON.detail) {
-                    message = xhr.responseJSON.detail;
-                } else if (xhr.status === 0) {
-                    message = "Помилка з'єднання з сервером. Перевірте, чи запущено бекенд на порту 8001 та налаштування CORS.";
+                if (xhr.status === 401) {
+                    message = "Невірний логін або пароль";
+                }
+                else if (xhr.responseJSON && xhr.responseJSON.detail) {
+                    if (xhr.responseJSON.detail === "No active account found with the given credentials") {
+                        message = "Невірний логін або пароль";
+                    } else {
+                        message = xhr.responseJSON.detail;
+                    }
+                }
+                else if (xhr.status === 0) {
+                    message = "Помилка з'єднання з сервером.";
                 }
 
-                alert(message);
+                $errorDiv.text(message).slideDown();
             }
         });
     });

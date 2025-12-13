@@ -51,7 +51,9 @@
       </nav>
 
       <div class="offcanvas-bottom">
-        <a href="{% url 'login' %}" class="btn-primary" style="text-decoration: none; display: inline-block; text-align: center;">Login</a>
+          <div id="mobile-auth-container">
+              <a href="{% url 'login' %}" class="btn-primary" style="text-decoration: none; display: block; text-align: center;">Login</a>
+          </div>
         <div class="socials">
           <p class="socials-title">Ми в соціальних мережах</p>
           <div class="social-links">
@@ -73,6 +75,20 @@
 
   {% block content %}
   {% endblock %}
+
+<div id="global-logout-modal" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-icon">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </div>
+        <h3>Вихід з акаунту</h3>
+        <p>Ви впевнені, що бажаєте вийти? Вам доведеться вводити пароль знову.</p>
+        <div class="modal-buttons">
+            <button id="btn-global-cancel" class="modal-btn btn-grey">Залишитись</button>
+            <button id="btn-global-confirm" class="modal-btn btn-pink">Вийти</button>
+        </div>
+    </div>
+  </div>
 
 <script src="{% static 'js/left_header.js' %}"></script>
 </body>

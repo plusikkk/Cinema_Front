@@ -1,25 +1,23 @@
-/* static/css/auth.css */
-
 :root {
-  --pink: #ff0055;
-  --pink-hover: #ff2e93;
-  --bg: #050505;
+  --pink: #ff3c8e;
+  --pink-hover: #d61c75;
+  --bg: #080808;
   --text-main: #ffffff;
-  --text-muted: #a1a1aa;
-  --border: rgba(255, 255, 255, 0.15);
-  --input-bg: rgba(255, 255, 255, 0.08);
+  --text-muted: #9ca3af;
+  --border: rgba(255, 255, 255, 0.06);
+  --input-bg: #0b0b0d;
 }
 
 .auth-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 85vh;
+  min-height: 91.8vh;
   width: 100%;
   background-color: var(--bg);
   background-image:
-    radial-gradient(circle at 15% 25%, rgba(255, 0, 85, 0.15) 0%, transparent 25%),
-    radial-gradient(circle at 85% 75%, rgba(255, 0, 85, 0.1) 0%, transparent 30%);
+    radial-gradient(circle at 15% 25%, rgba(255, 60, 142, 0.15) 0%, transparent 25%),
+    radial-gradient(circle at 85% 75%, rgba(255, 60, 142, 0.1) 0%, transparent 30%);
   background-attachment: fixed;
   padding: 20px;
   box-sizing: border-box;
@@ -60,6 +58,7 @@
   outline: none;
   transition: 0.3s;
   box-sizing: border-box;
+  font-family: inherit;
 }
 
 .auth-container input::placeholder {
@@ -68,8 +67,8 @@
 
 .auth-container input:focus {
   border-color: var(--pink);
-  background-color: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 0 0 4px rgba(255, 0, 85, 0.2);
+  background-color: #080808;
+  box-shadow: 0 0 0 4px rgba(255, 60, 142, 0.2);
 }
 
 .auth-container button {
@@ -86,13 +85,13 @@
   letter-spacing: 1px;
   cursor: pointer;
   transition: 0.3s;
-  box-shadow: 0 4px 20px rgba(255, 0, 85, 0.4);
+  box-shadow: 0 4px 20px rgba(255, 60, 142, 0.4);
 }
 
 .auth-container button:hover {
   background: var(--pink-hover);
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(255, 0, 85, 0.6);
+  box-shadow: 0 8px 25px rgba(255, 60, 142, 0.6);
 }
 
 .auth-container p {
@@ -112,7 +111,88 @@
   color: #fff;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px var(--input-bg) inset !important;
+    -webkit-text-fill-color: #ffffff !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/* КАСТОМНА ВАЛІДАЦІЯ */
+
+.auth-container .form-group {
+    position: relative;
+}
+
+.error-message {
+    position: absolute;
+    bottom: 105%;
+    left: 0;
+    background-color: var(--pink);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+    box-shadow: 0 5px 15px rgba(255, 60, 142, 0.4);
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.error-message::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 20px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: var(--pink) transparent transparent transparent;
+}
+
+.form-group.error .error-message {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.form-group.error input {
+    border-color: var(--pink);
+    box-shadow: 0 0 0 4px rgba(255, 60, 142, 0.2);
+}
+
+/* БЛОК ПОМИЛКИ */
+.auth-error-box {
+    display: none;
+    margin-top: 20px;
+    padding: 15px;
+    background-color: rgba(255, 60, 142, 0.1);
+    border: 1px solid var(--pink);
+    color: #ff3c8e;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(255, 60, 142, 0.15);
+    animation: shake 0.4s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+}
+
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+
