@@ -16,7 +16,19 @@
     font-weight: 500;
     transition: color 0.2s;
 }
-.back-link:hover { color: var(--accent); }
+
+.back-link i {
+    font-size: 0.85em;
+    transition: transform 0.2s ease;
+}
+
+.back-link:hover {
+    color: var(--accent);
+}
+
+.back-link:hover i {
+    transform: translateX(-5px);
+}
 
 .details-grid {
     display: grid;
