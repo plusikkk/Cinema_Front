@@ -44,4 +44,7 @@ def profile(request):
 def seats(request, session_id):
     return render(request, 'seatsMap.html', {'session_id': session_id})
 
+def faq(request):
+    return render(request, 'faq.html')
+
 
