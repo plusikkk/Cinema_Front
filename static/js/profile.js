@@ -20,6 +20,47 @@ document.addEventListener("DOMContentLoaded", function() {
         setTimeout(() => { msgDiv.style.display = "none"; }, 5000);
     }
 
+    function showCustomModalMessage(title, text, type) {
+        const modalOverlay = document.getElementById('message-modal');
+        const iconDiv = document.getElementById('msg-modal-icon');
+        const titleH3 = document.getElementById('msg-modal-title');
+        const textP = document.getElementById('msg-modal-text');
+
+        titleH3.innerText = title;
+        textP.innerText = text;
+        iconDiv.className = 'modal-icon';
+
+        let icon = iconDiv.querySelector('i');
+        if (!icon) {
+            icon = document.createElement('i');
+            iconDiv.appendChild(icon);
+        }
+
+        if (type === 'success') {
+            iconDiv.classList.add('success-icon');
+            icon.className = 'fa-solid fa-check-circle';
+        } else if (type === 'error') {
+            iconDiv.classList.add('error-icon');
+            icon.className = 'fa-solid fa-circle-exclamation';
+        } else {
+            icon.className = 'fa-solid fa-info-circle';
+        }
+
+        modalOverlay.classList.add('active');
+    }
+
+    const btnCloseMsgModal = document.getElementById('btn-close-msg-modal');
+    if (btnCloseMsgModal) {
+        btnCloseMsgModal.addEventListener('click', () => {
+            const modalOverlay = document.getElementById('message-modal');
+            modalOverlay.classList.remove('active');
+
+            if (document.getElementById('msg-modal-title').innerText === 'Акаунт видалено') {
+                window.location.href = "/";
+            }
+        });
+    }
+
     function initCustomSelect() {
         const customSelectWrapper = document.querySelector(".custom-select-container");
         if (!customSelectWrapper) return;
@@ -274,7 +315,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
 
-    // МОДАЛЬНЕ ВІКНО
+    // ВІКНО ВИХОДУ
     const logoutBtnSidebar = document.getElementById('logout-btn-sidebar');
     const modalOverlay = document.getElementById('logout-modal');
     const btnCancel = document.getElementById('btn-cancel-logout');
@@ -304,6 +345,65 @@ document.addEventListener("DOMContentLoaded", function() {
             localStorage.removeItem('refresh_token');
             localStorage.removeItem('username');
             window.location.href = "/";
+        });
+    }
+
+    // ВІКНО ВИДАЛЕННЯ ПРОФІЛЮ
+    const deleteBtn = document.getElementById('delete-profile-btn');
+    const deleteModalOverlay = document.getElementById('delete-modal');
+    const btnCancelDelete = document.getElementById('btn-cancel-delete');
+    const btnConfirmDelete = document.getElementById('btn-confirm-delete');
+
+    function openDeleteModal() { deleteModalOverlay.classList.add('active'); }
+    function closeDeleteModal() { deleteModalOverlay.classList.remove('active'); }
+
+    if (deleteBtn) {
+        deleteBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openDeleteModal();
+        });
+    }
+
+    if (btnCancelDelete) btnCancelDelete.addEventListener('click', closeDeleteModal);
+
+    if (deleteModalOverlay) {
+        deleteModalOverlay.addEventListener('click', (e) => {
+            if (e.target === deleteModalOverlay) closeDeleteModal();
+        });
+    }
+
+    if (btnConfirmDelete) {
+        btnConfirmDelete.addEventListener('click', () => {
+            fetch(API_PROFILE_URL, {
+                method: "DELETE",
+                headers: { "Authorization": `Bearer ${token}` }
+            })
+            .then(async response => {
+                if (response.status === 204) {
+                    localStorage.removeItem('access_token');
+                    localStorage.removeItem('refresh_token');
+                    localStorage.removeItem('username');
+
+                    closeDeleteModal();
+                    showCustomModalMessage(
+                        "Акаунт видалено",
+                        "Ваш акаунт та всі пов'язані дані успішно видалені. Дякуємо, що були з нами.",
+                        "success"
+                    );
+
+                } else if (response.status === 401) {
+                    localStorage.removeItem('access_token');
+                    window.location.href = "/";
+                } else {
+                    const data = await response.json();
+                    showMsg(`Помилка видалення: ${data.error || 'Невідома помилка'}`, "#ff4d4d");
+                    closeDeleteModal();
+                }
+            })
+            .catch(() => {
+                showMsg("Помилка з'єднання з сервером", "#ff4d4d");
+                closeDeleteModal();
+            });
         });
     }
 });

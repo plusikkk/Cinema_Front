@@ -192,6 +192,18 @@
                                 </div>
                             </div>
 
+                            <div class="divider-h"></div>
+
+                            <div class="form-group-block">
+                                <h4 class="form-title delete-title">Небезпечна зона</h4>
+                                <div class="danger-area">
+                                    <div class="danger-info">
+                                        <h5>Видалити акаунт</h5>
+                                        <p>Остаточно видаляє ваш акаунт та всі пов'язані дані. Цю дію неможливо скасувати.</p>
+                                    </div>
+                                    <button type="button" id="delete-profile-btn" class="btn-danger">Видалити</button>
+                                </div>
+                            </div>
                             <div id="profile-msg" class="message-box"></div>
 
                             <div class="form-footer">
@@ -219,6 +231,32 @@
     </div>
 </div>
 
+<div id="delete-modal" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-icon delete-icon">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+        <h3>Видалити акаунт?</h3>
+        <p>Ви впевнені, що хочете остаточно видалити свій акаунт? Цю дію неможливо скасувати.</p>
+        <div class="modal-buttons">
+            <button id="btn-cancel-delete" class="modal-btn btn-grey">Скасувати</button>
+            <button id="btn-confirm-delete" class="modal-btn btn-delete">Видалити назавжди</button>
+        </div>
+    </div>
+</div>
+
+<div id="message-modal" class="modal-overlay">
+    <div class="modal-box small-modal">
+        <div class="modal-icon" id="msg-modal-icon">
+            <i class="fa-solid fa-check-circle"></i>
+        </div>
+        <h3 id="msg-modal-title">Готово!</h3>
+        <p id="msg-modal-text">Ваш акаунт успішно видалено.</p>
+        <div class="modal-buttons">
+            <button id="btn-close-msg-modal" class="modal-btn btn-pink">OK</button>
+        </div>
+    </div>
+</div>
 <script src="{% static 'js/profile.js' %}"></script>
 {% endblock %}
 

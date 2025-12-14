@@ -994,5 +994,101 @@ input:-webkit-autofill:active {
     }
 }
 
+/* ЗОНА ВИДАЛЕННЯ ПРОФІЛЮ */
+.form-title.delete-title {
+    border-left: 4px solid #ff4d4d;
+}
+
+.danger-area {
+    background: rgba(255, 77, 77, 0.05);
+    border: 1px solid rgba(255, 77, 77, 0.2);
+    border-radius: 14px;
+    padding: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.danger-info h5 {
+    margin: 0 0 5px 0;
+    font-size: 1.1rem;
+    color: #fff;
+    font-weight: 700;
+}
+
+.danger-info p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #ff4d4d;
+    font-weight: 500;
+}
+
+.btn-danger {
+    padding: 12px 25px;
+    border-radius: 10px;
+    background: #ff4d4d;
+    color: #fff;
+    border: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: 0.3s;
+    flex-shrink: 0;
+    box-shadow: 0 5px 15px rgba(255, 77, 77, 0.25);
+}
+
+.btn-danger:hover {
+    background: #d63737;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 77, 77, 0.5);
+}
+
+.modal-icon.delete-icon {
+    color: #ff4d4d;
+}
+
+.modal-btn.btn-delete {
+    background: #ff4d4d;
+    color: #fff;
+    box-shadow: 0 5px 15px rgba(255, 77, 77, 0.3);
+}
+
+.modal-btn.btn-delete:hover {
+    background: #d63737;
+    transform: translateY(-2px);
+}
+
+.form-footer {
+    margin-top: 40px;
+    padding-top: 20px;
+}
+
+.form-group-block:last-of-type {
+    margin-bottom: 40px;
+}
+
+.divider-h {
+    height: 1px;
+    background: rgba(255,255,255,0.04);
+    margin: 40px 0;
+}
+
+.form-footer {
+    padding-top: 20px;
+    margin-top: 20px;
+}
+
+.modal-box.small-modal {
+    max-width: 350px;
+}
+
+.modal-icon.success-icon {
+    color: #00ff88;
+}
+
+.modal-icon.error-icon {
+    color: #ff4d4d;
+}
 
 
