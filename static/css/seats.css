@@ -1,236 +1,592 @@
-.booking-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 40px 20px;
+:root {
+    --bg-dark: #080808;
+    --panel-bg: #141416;
+    --pink: #ff3c8e;
+    --pink-hover: #d61c75;
+    --accent: #ffffff;
+    --muted: #9ca3af;
+    --border: rgba(255, 255, 255, 0.08);
+    --font-main: 'Montserrat', sans-serif;
+}
+
+body {
+    background-color: var(--bg-dark);
     color: var(--accent);
-    min-height: 80vh;
+    font-family: var(--font-main);
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
+    position: relative;
+}
+
+.ambient-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 15% 25%, rgba(255, 60, 142, 0.03), transparent 45%),
+                radial-gradient(circle at 85% 75%, rgba(142, 45, 226, 0.03), transparent 45%);
+    z-index: -2;
+    pointer-events: none;
+}
+
+/* ПЛІВКА */
+body::before, body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 60px;
+    z-index: -1;
+    background-image:
+        linear-gradient(var(--bg-dark) 50%, transparent 50%),
+        linear-gradient(90deg, transparent 20%, rgba(255, 255, 255, 0.08) 20%, rgba(255, 255, 255, 0.08) 80%, transparent 80%);
+    background-size: 100% 40px, 100% 100%;
+    pointer-events: none;
+}
+body::before { left: 10px; border-right: 1px solid rgba(255, 255, 255, 0.08); }
+body::after { right: 10px; border-left: 1px solid rgba(255, 255, 255, 0.08); }
+
+/* ЛЕЙАУТ */
+.booking-wrapper {
+    max-width: 1650px;
+    margin: 0 auto;
+    padding: 30px 80px 80px;
     box-sizing: border-box;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 40px;
+    align-items: start;
 }
 
-.screen-reference {
-    background: linear-gradient(to bottom, #ffffff, rgba(255, 255, 255, 0));
-    height: 60px;
-    width: 70%;
-    max-width: 700px;
-    margin-bottom: 60px;
+.booking-grid { display: contents; }
 
-    transform: perspective(2000px) rotateX(-15deg) scale(0.9);
-    box-shadow: 0 50px 70px -10px rgba(255, 255, 255, 0.15); /* Світло від екрану вниз */
+.back-nav {
+    grid-column: 1;
+    grid-row: 1;
+    margin-top: 25px;
+    margin-bottom: 0;
+}
 
-    border-radius: 10px;
-    display: flex;
+.back-link {
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    color: #000;
-    font-weight: 800;
-    letter-spacing: 10px;
-    text-transform: uppercase;
-    font-size: 1.2rem;
-    opacity: 0.8;
-    text-shadow: 0 0 10px rgba(255,255,255,0.5);
+    gap: 10px;
+    color: var(--muted);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: 0.3s;
+    padding: 8px 0;
 }
+.back-link i { font-size: 0.9rem; transition: transform 0.3s ease; }
+.back-link:hover { color: #fff; }
+.back-link:hover i { transform: translateX(-5px); }
 
-.seats-area {
+/* САЙДБАР */
+.movie-sidebar {
+    grid-column: 1;
+    grid-row: 2;
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    margin-bottom: 50px;
-    overflow-x: auto;
-    padding: 20px;
-    width: 100%;
-    align-items: center;
-
-    scrollbar-width: thin;
-    scrollbar-color: var(--pink) var(--panel);
+    gap: 25px;
+    position: sticky;
+    top: 30px;
+    margin-top: -50px;
 }
 
-.row {
+.sidebar-card {
+    background: rgba(20, 20, 22, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: none;
+}
+
+.poster-wrapper {
+    width: 100%;
+    aspect-ratio: 2/3;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    background: #111;
+    box-shadow: none;
+}
+
+.poster-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.movie-info-compact h1 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin: 0 0 15px 0;
+    line-height: 1.2;
+    color: #fff;
+}
+
+.meta-tags {
     display: flex;
     gap: 10px;
-    justify-content: center;
-    min-width: max-content;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 0.85rem;
+    font-weight: 700;
 }
 
-.seat {
-    width: 36px;
-    height: 36px;
-    background-color: var(--panel);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-
-    cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    position: relative;
-    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.3);
+.rating-pill {
+    color: #ffd700;
+    background: rgba(255, 215, 0, 0.1);
+    padding: 6px 14px;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    display: flex;
+    gap: 6px;
+    align-items: center;
 }
 
-.seat:not(.occupied):hover {
-    transform: scale(1.15) translateY(-2px);
-    background-color: var(--hover);
-    box-shadow: 0 8px 15px rgba(255, 255, 255, 0.1);
-    z-index: 2;
+.age-pill {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 6px 12px;
+    border-radius: 50px;
 }
 
-.seat.selected {
-    background-color: var(--pink);
-    border-color: var(--pink);
-    box-shadow: 0 0 15px var(--pink);
-    transform: translateY(-2px);
+.duration-text {
+    color: var(--muted);
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
-.seat.occupied {
-    background-color: rgba(255, 255, 255, 0.24);
-    cursor: not-allowed;
-    box-shadow: none;
-    opacity: 0.5;
-    border-color: transparent;
-}
-
-.seat.occupied::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 8px;
-    height: 8px;
-    background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.booking-summary {
-    background: var(--panel);
-    border-radius: var(--round);
-    padding: 24px 32px;
-    box-shadow: var(--shadow);
+.btn-trailer {
     width: 100%;
-    max-width: 600px;
+    padding: 18px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.03);
+    color: #fff;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
 
+.btn-trailer:hover {
+    background: rgba(255, 60, 142, 0.1);
+    border-color: var(--pink);
+    transform: translateY(-3px);
+    box-shadow: none;
+}
+
+/* ПРАВА ЧАСТИНА */
+.main-content {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+/* Інфо-бар */
+.session-info-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
-
-    position: sticky;
-    bottom: 20px;
-    z-index: 100;
-
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
+    background: linear-gradient(90deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-left: 3px solid var(--pink);
+    padding: 15px 30px;
+    border-radius: 16px;
+    margin-top: 22px;
+    margin-bottom: 50px;
+    box-shadow: none;
+    position: relative;
+    z-index: 500;
 }
 
-.bonus-wrapper {
+.info-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.info-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 700;
+    letter-spacing: 1.2px;
+}
+
+.info-value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
     display: flex;
     align-items: center;
     gap: 12px;
 }
 
-.bonus-wrapper label {
-    cursor: pointer;
-    color: var(--accent);
-    font-size: 0.95rem;
-    font-weight: 500;
-}
-
-.bonus-wrapper input[type="checkbox"] {
-    appearance: none;
-    -webkit-appearance: none;
-    width: 22px;
-    height: 22px;
-    border: 2px solid rgba(255, 255, 255, 0.4);
-    border-radius: 6px;
-    position: relative;
-    cursor: pointer;
-    background-color: transparent;
-    transition: all 0.25s ease;
-}
-
-.bonus-wrapper input[type="checkbox"]:checked {
-    background-color: var(--pink);
-    border-color: var(--pink);
-    box-shadow: 0 0 10px rgba(214, 51, 132, 0.4);
-}
-
-.bonus-wrapper input[type="checkbox"]:checked::after {
-    content: '';
-    position: absolute;
-    left: 5px;
-    top: 1px;
-    width: 6px;
-    height: 12px;
-    border: solid white;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
-}
-
-.bonus-wrapper input[type="checkbox"]:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    border-color: rgba(255, 255, 255, 0.1);
-}
-
-.pay-button {
-    background-color: var(--pink);
-    color: white;
-    border: none;
-    padding: 12px 28px;
-    border-radius: 12px;
+.icon-box {
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 60, 142, 0.1);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--pink);
     font-size: 1rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+    border: 1px solid rgba(255, 60, 142, 0.2);
+    box-shadow: none;
+}
+
+.time-highlight {
+    color: #fff;
+    font-weight: 800;
+    font-size: 1.5rem;
+    text-shadow: none;
     letter-spacing: 0.5px;
 }
 
-.pay-button:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(214, 51, 132, 0.4);
-    background-color: #e64995;
+/* ЕКРАН */
+.screen-area {
+    perspective: 1000px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-right: 170px;
+    box-sizing: border-box;
+    margin-bottom: 40px;
+    position: relative;
+    pointer-events: none;
 }
 
-.pay-button:active:not(:disabled) {
-    transform: translateY(0);
+.screen-glow {
+    width: 100%;
+    max-width: 750px;
+    height: 45px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 100%);
+    opacity: 0.9;
+    transform: rotateX(-5deg) scale(1.05);
+    transform-origin: center top;
+    border-radius: 8px;
+    box-shadow: none;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 10px;
+    font-weight: 900;
+    letter-spacing: 12px;
+    color: rgba(255,255,255,0.25);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    position: relative;
 }
 
-.pay-button:disabled {
-    background-color: var(--hover);
-    color: rgba(255, 255, 255, 0.3);
+.screen-glow::after { display: none; }
+
+/* КОНТЕЙНЕР ДЛЯ МІСЦЬ */
+.seats-wrapper-row {
+    display: flex;
+    justify-content: center;
+    padding-right: 170px;
+    box-sizing: border-box;
+    align-items: flex-start;
+    margin-bottom: 40px;
+    width: 100%;
+    position: relative;
+}
+
+.seats-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: center;
+    width: auto;
+    max-width: 100%;
+    overflow-x: auto;
+    padding: 10px 5px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.seats-grid::-webkit-scrollbar { display: none; }
+
+.row {
+    display: flex;
+    gap: 12px;
+    min-width: max-content;
+}
+
+/* Легенда */
+.legend-vertical {
+    position: absolute;
+    right: 0;
+    top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding-left: 20px;
+    border-left: 1px solid rgba(255,255,255,0.05);
+    padding-top: 5px;
+    width: 140px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.legend-icon {
+    font-size: 1.4rem;
+    width: 28px;
+    text-align: center;
+}
+
+.l-free { color: #4a4a50; text-shadow: none; }
+.l-selected { color: var(--pink); text-shadow: none; }
+.l-occupied { color: #27272a; }
+
+/* ДИЗАЙН КРІСЕЛ */
+.seat {
+    width: 44px;
+    height: 36px;
+    background-color: #4a4a50;
+    border-radius: 8px 8px 4px 4px;
+    border-bottom: 5px solid #3f3f46;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: none;
+    margin: 0 2px;
+}
+
+/* Підлокітники */
+.seat::before, .seat::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    width: 6px;
+    height: 18px;
+    background-color: #3f3f46;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.seat::before { left: -5px; }
+.seat::after { right: -5px; }
+
+.seat:not(.occupied):hover {
+    background-color: #d4d4d8;
+    border-bottom-color: #a1a1aa;
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: none;
+    z-index: 10;
+}
+
+.seat:not(.occupied):hover::before, .seat:not(.occupied):hover::after { background-color: #a1a1aa; }
+
+/* обранні сидіння */
+.seat.selected {
+    background-color: var(--pink);
+    border-bottom-color: #d61c75;
+    transform: translateY(-3px);
+    box-shadow: none;
+}
+
+.seat.selected::before, .seat.selected::after { background-color: #d61c75; }
+
+/* зайняті сидіння */
+.seat.occupied {
+    background-color: #27272a;
+    border-bottom-color: #18181b;
+    opacity: 0.6;
     cursor: not-allowed;
     box-shadow: none;
-    transform: none;
 }
 
-@media (max-width: 600px) {
-    .booking-summary {
+.seat.occupied::before, .seat.occupied::after { background-color: #18181b; }
+
+
+/* ПАНЕЛЬ ОПЛАТИ */
+.payment-card {
+    background: rgba(20, 20, 22, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
+    padding: 15px 40px;
+    width: 100%;
+    box-shadow: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    min-height: 80px;
+    margin-top: 0;
+}
+
+.bonus-control {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 16px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 50px;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.custom-checkbox {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--pink);
+    cursor: pointer;
+}
+
+.bonus-label {
+    color: #ddd;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.bonus-amount { color: #ffd700; font-weight: 700; }
+
+.total-info-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.seats-count-label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.total-price-val {
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: #fff;
+    text-shadow: none;
+}
+
+/* КНОПКА ОПЛАТИ */
+.btn-pay {
+    background-color: var(--pink);
+    color: #fff;
+    border: none;
+    padding: 14px 40px;
+    border-radius: 14px;
+    font-size: 1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: none;
+    min-width: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-pay:hover:not(:disabled) {
+    background-color: #ff1f7d;
+    transform: translateY(-3px);
+    box-shadow: none;
+}
+
+.btn-pay:disabled {
+    background-color: #2c2c30;
+    color: #555;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* АДАПТИВ */
+@media (max-width: 1450px) {
+    .booking-wrapper { display: block; }
+    .booking-grid { display: grid; }
+    .back-nav { margin-top: 0; margin-bottom: 30px; }
+
+    .seats-wrapper-row {
         flex-direction: column;
-        align-items: stretch;
-        text-align: center;
-        padding: 20px;
-        bottom: 10px;
+        align-items: center;
+        gap: 30px;
+        padding-right: 0;
+        margin-bottom: 30px;
     }
 
-    .bonus-wrapper {
-        justify-content: center;
-        margin-bottom: 10px;
-    }
+    .screen-area { padding-right: 0; }
 
-    .pay-button {
+    .legend-vertical {
+        position: static;
+        flex-direction: row;
+        border-left: none;
+        padding-left: 0;
+        border-top: 1px solid rgba(255,255,255,0.05);
+        padding-top: 20px;
         width: 100%;
+        justify-content: center;
     }
 
-    .screen-reference {
-        width: 90%;
-        font-size: 1rem;
-    }
+    .movie-sidebar { margin-top: 0; }
+    .session-info-bar { margin-top: 0; }
 }
+
+@media (max-width: 1200px) {
+    .booking-wrapper { padding: 30px 20px 80px; }
+    .booking-grid { gap: 30px; grid-template-columns: 300px 1fr; }
+}
+
+@media (max-width: 992px) {
+    .booking-grid { grid-template-columns: 1fr; gap: 40px; }
+    .movie-sidebar { flex-direction: row; flex-wrap: wrap; }
+    .sidebar-card { flex: 1; flex-direction: row; align-items: center; }
+    .poster-wrapper { width: 140px; aspect-ratio: 2/3; margin-bottom: 0; }
+    .btn-trailer { width: auto; align-self: center; }
+}
+
+@media (max-width: 768px) {
+    .payment-card { flex-direction: column; gap: 20px; padding: 25px; }
+    .btn-pay, .bonus-control { width: 100%; justify-content: center; }
+    .sidebar-card { flex-direction: column; align-items: flex-start; }
+    .poster-wrapper { width: 100%; aspect-ratio: 16/9; }
+}
+
+
 

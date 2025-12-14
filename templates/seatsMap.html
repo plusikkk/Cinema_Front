@@ -1,28 +1,126 @@
 {% extends "layout.html" %}
-{% block content %}
 {% load static %}
-    <div class="booking-container">
 
-        <div class="screen-reference">ЕКРАН</div> <div id="seats-container" class="seats-area"></div>
-        <div class="booking-summary">
-            <div class="bonus-wrapper">
-                <input type="checkbox" id="use-bonuses">
-                <label for="use-bonuses">
-                    Списати бонуси (Доступно: <span id="user-bonuses-display">Loading...</span>)
-                </label>
-            </div>
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/seats.css' %}">
+{% endblock %}
 
-            <button id="pay-btn" class="pay-button">Оплатити</button>
-        </div>
+{% block content %}
+
+
+<div class="ambient-bg"></div>
+
+<div class="booking-wrapper">
+
+    <div class="back-nav">
+        <a href="#" class="back-link" onclick="history.back(); return false;">
+            <i class="fas fa-arrow-left"></i> Назад до списку
+        </a>
     </div>
 
-    <div id="liqpay-form-container" style="display:none;"></div>
+    <div class="booking-grid">
 
-    <script>
-        const sessionId = "{{ session_id }}";
-    </script>
+        <aside class="movie-sidebar">
+            <div class="sidebar-card">
+                <div class="poster-wrapper" id="sidebar-poster-area">
+                    <div class="skeleton" style="width:100%;height:100%;background:#1a1a1d;"></div>
+                </div>
 
-    <script src="{% static 'js/seatsMap.js' %}?v=2.0"></script>
+                <div class="movie-info-compact">
+                    <h1 id="sidebar-movie-title">Завантаження...</h1>
+                    <div class="meta-tags">
+                        <span class="rating-pill"><i class="fas fa-star"></i> <span id="sidebar-rating">0.0</span></span>
+                        <span class="age-pill" id="sidebar-age">0+</span>
+                        <span class="duration-text"><i class="far fa-clock"></i> <span id="sidebar-duration">0 хв</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <a href="#" target="_blank" id="sidebar-trailer-btn" class="btn-trailer" style="display: none;">
+                <i class="fas fa-play"></i> Дивитись трейлер
+            </a>
+        </aside>
+
+        <main class="main-content">
+
+            <div class="session-info-bar">
+                <div class="info-group">
+                    <span class="info-label">Локація</span>
+                    <span class="info-value">
+                        <div class="icon-box"><i class="fas fa-map-marker-alt"></i></div>
+                        <div>
+                            <span id="sidebar-cinema" style="display:block; line-height:1.2;">...</span>
+                            <span id="sidebar-hall" style="font-size:0.9rem; color:#9ca3af; font-weight:500;">
+                                <i class="fas fa-door-open" style="margin-right:5px;"></i> ...
+                            </span>
+                        </div>
+                    </span>
+                </div>
+
+                <div class="info-group" style="align-items: flex-end; text-align: right;">
+                    <span class="info-label">Початок сеансу</span>
+                    <span class="info-value">
+                        <span id="sidebar-date" style="color:#ccc; font-weight:500; display:flex; align-items:center; gap:8px;">
+                            <i class="far fa-calendar-alt"></i> ...
+                        </span>
+                        <span class="time-highlight" id="sidebar-time">...</span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="screen-area">
+                <div class="screen-glow">ЕКРАН</div>
+            </div>
+
+            <div class="seats-wrapper-row">
+                <div id="seats-container" class="seats-grid"></div>
+
+                <div class="legend-vertical">
+                    <div class="legend-item">
+                        <i class="fas fa-couch legend-icon l-free"></i> Вільне
+                    </div>
+                    <div class="legend-item">
+                        <i class="fas fa-couch legend-icon l-selected"></i> Обране
+                    </div>
+                    <div class="legend-item">
+                        <i class="fas fa-couch legend-icon l-occupied"></i> Зайняте
+                    </div>
+                </div>
+            </div>
+
+            <div class="payment-card">
+                <div class="bonus-control">
+                    <input type="checkbox" id="use-bonuses" class="custom-checkbox" disabled>
+                    <label for="use-bonuses" class="bonus-label">
+                        <i class="fas fa-coins" style="color:#ffd700;"></i>
+                        Бонуси: <span id="user-bonuses-display" class="bonus-amount">0</span>
+                    </label>
+                </div>
+
+                <div class="total-info-center">
+                    <span class="seats-count-label">
+                        <i class="fas fa-ticket-alt"></i> Обрано місць: <span id="count" style="color:#fff;">0</span>
+                    </span>
+                    <span id="total" class="total-price-val">0 грн</span>
+                </div>
+
+                <button id="pay-btn" class="btn-pay" disabled>
+                    <i class="fas fa-credit-card"></i> ОПЛАТИТИ
+                </button>
+            </div>
+
+        </main>
+    </div>
+</div>
+
+<div id="liqpay-form-container" style="display:none;"></div>
+
+<script>
+    const sessionId = "{{ session_id }}";
+</script>
+
+<script src="{% static 'js/card_badges.js' %}"></script>
+<script src="{% static 'js/seatsMap.js' %}?v=27.0"></script>
 
 {% endblock %}
 
