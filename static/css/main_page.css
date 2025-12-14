@@ -27,9 +27,7 @@
   width: 100%;
 }
 
-
 /* СЕКЦІЇ ТА ЗАГОЛОВКИ */
-
 .movies-section {
   margin-top: 60px;
   padding-bottom: 60px;
@@ -81,15 +79,12 @@
   background-color: var(--pink);
 }
 
-
 /* СІТКА ФІЛЬМІВ */
-
 .movie-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, 267px);
   gap: 28px;
 }
-
 
 /* КАРТКА ФІЛЬМУ */
 .movie-card {
@@ -151,9 +146,7 @@
   opacity: 0;
 }
 
-
 /* ОВЕРЛЕЙ ФІЛЬМУ */
-
 .movie-overlay {
   position: absolute;
   inset: 0;
@@ -171,7 +164,6 @@
   opacity: 1;
 }
 
-/* Верхні кнопки (Детальніше/Трейлер) */
 .overlay-top-buttons {
   display: flex;
   justify-content: space-between;
@@ -187,6 +179,9 @@
   background-color: rgba(255, 255, 255, 0.1);
   padding: 6px 6px;
   border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
   transition: background-color 0.25s ease;
 }
 
@@ -275,9 +270,7 @@
   transform: scale(1.05);
 }
 
-
 /* ПАНЕЛЬ РЕКОМЕНДАЦІЙ */
-
 .recommendation-panel {
   width: 100%;
   max-width: 520px;
@@ -399,9 +392,7 @@
   transform: rotate(45deg);
 }
 
-
 /* ПАГІНАЦІЯ */
-
 .pagination {
   display: flex;
   align-items: center;
@@ -437,9 +428,7 @@
   color: var(--muted);
 }
 
-
-/* МОДАЛЬНЕ ВІКНО */
-
+/* ВІКНО РЕКОМЕНДАЦІЙ */
 #recommend-modal {
   position: fixed;
   inset: 0;
@@ -611,7 +600,6 @@
     margin: 0 auto;
 }
 
-/* Анімація плавання для іконки */
 @keyframes float {
     0% { transform: translateY(0px); }
     50% { transform: translateY(-10px); }
@@ -639,9 +627,7 @@
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
-
 /* АДАПТАЦІЯ */
-
 @media (max-width: 1024px) {
   .content-wrapper {
     grid-template-columns: 1fr;
@@ -670,5 +656,88 @@
   }
 }
 
+/* ВІКНО ТРЕЙЛЕРУ */
+.trailer-modal {
+    display: none;
+    position: fixed;
+    z-index: 12000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(18, 18, 20, 0.9);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.trailer-modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+.trailer-modal-content {
+    position: relative;
+    width: 85%;
+    max-width: 960px;
+    background: #000;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 60, 142, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transform: scale(0.95);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.trailer-modal.active .trailer-modal-content {
+    transform: scale(1);
+}
+
+.trailer-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    background: #000;
+}
+
+.trailer-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+}
+
+.close-trailer-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 12001;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.close-trailer-btn:hover {
+    background: var(--pink);
+    border-color: var(--pink);
+    transform: rotate(90deg);
+    box-shadow: 0 0 15px rgba(255, 60, 142, 0.6);
+}
 
 

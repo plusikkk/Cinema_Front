@@ -66,6 +66,64 @@
         </div>
 </div>
 
+   <div id="trailerModal" class="trailer-modal">
+    <div class="trailer-modal-content">
+        <button class="close-trailer-btn">
+            <i class="fas fa-times"></i>
+        </button>
+
+        <div class="trailer-container">
+            <iframe id="trailerPlayer" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+
+<script>
+    function getYouTubeID(url) {
+        if (!url) return null;
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[2].length === 11) ? match[2] : null;
+    }
+
+    function openTrailerModal(url) {
+        const videoId = getYouTubeID(url);
+        if (!videoId) {
+            alert("Трейлер недоступний або посилання пошкоджене");
+            return;
+        }
+
+        const modal = document.getElementById('trailerModal');
+        const iframe = document.getElementById('trailerPlayer');
+
+        iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+        modal.classList.add('active');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const modal = document.getElementById('trailerModal');
+        const closeBtn = document.querySelector('.close-trailer');
+        const iframe = document.getElementById('trailerPlayer');
+
+        function closeModal() {
+            modal.classList.remove('active');
+            iframe.src = "";
+        }
+
+        closeBtn.addEventListener('click', closeModal);
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+    });
+</script>
+
 <script src="{% static 'js/recommend.js' %}"></script>
 <script src="{% static 'js/API.js' %}"></script>
 <script src="{% static 'js/search.js' %}"></script>

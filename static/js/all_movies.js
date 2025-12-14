@@ -4,8 +4,39 @@ let currentPage = 1;
 const dataElement = document.getElementById('status_to_load');
 const STATUS_TO_LOAD = dataElement ? JSON.parse(dataElement.textContent) : 'screened';
 
-async function fetchMovies(status, page = 1) {
-  let url = `${BASE_URL}/movies/?status=${status}&page=${page}&page_size=8`;
+function getFilterParams() {
+    const params = new URLSearchParams();
+
+    params.append('status', STATUS_TO_LOAD);
+    params.append('page', currentPage);
+    params.append('page_size', 8);
+
+    const animCheckbox = document.querySelector('input[name="filter_animation"]:checked');
+    if (animCheckbox) params.append('animation', 'true');
+
+    const kidsCheckbox = document.querySelector('input[name="filter_kids"]:checked');
+    if (kidsCheckbox) params.append('kids', 'true');
+
+    const ageCheckboxes = document.querySelectorAll('input[name="filter_age"]:checked');
+    if (ageCheckboxes.length > 0) {
+        const values = Array.from(ageCheckboxes).map(cb => parseInt(cb.value));
+        const minAge = Math.min(...values);
+        params.append('age_limit', minAge);
+    }
+
+    const genreCheckboxes = document.querySelectorAll('input[name="filter_genre"]:checked');
+    const selectedGenres = Array.from(genreCheckboxes).map(cb => cb.value);
+
+    if (selectedGenres.length > 0) {
+        params.append('genres', selectedGenres.join(','));
+    }
+
+    return params;
+}
+
+async function fetchMovies() {
+  const params = getFilterParams();
+  let url = `${BASE_URL}/movies/?${params.toString()}`;
 
   try {
     const response = await fetch(url);
@@ -13,7 +44,7 @@ async function fetchMovies(status, page = 1) {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error(`Помилка при завантаженні (${status}, стор. ${page}):`, error);
+    console.error(`Помилка при завантаженні:`, error);
   }
 }
 
@@ -28,23 +59,8 @@ function createMovieCard(movie, cardType) {
   const formattedDate = releaseDate.toLocaleDateString('uk-UA', options);
   const isPresale = releaseDate > new Date();
 
-  let posterHTML;
-  if (movie.poster_url) {
-      posterHTML = `<img src="${movie.poster_url}" alt="${title}">`;
-  } else {
-      posterHTML = `
-        <div class="no-poster-placeholder">
-            <div class="np-content">
-                <span class="np-logo">Multi<span class="np-pink">Flex</span></span>
-                <div class="np-divider"></div>
-                <span class="np-text">Скоро з’явиться...</span>
-            </div>
-        </div>
-      `;
-  }
-
-  // БЕЙДЖИ
-  let badgesHTML = getBadgesHTML(movie.badges);
+  const posterHTML = getPosterHTML(movie.poster_url, title);
+  const badgesHTML = getBadgesHTML(movie.badges);
 
   return `
     <div class="movie-card">
@@ -77,14 +93,14 @@ function renderMovies(paginatedData) {
   const container = document.getElementById('movies-grid-container');
   if (!container) return;
 
-  const movies = paginatedData.results;
   container.innerHTML = '';
 
-  if (!movies || movies.length === 0) {
-    container.innerHTML = '<p style="color: var(--muted); font-size: 1.1rem;">За вашим запитом фільмів не знайдено.</p>';
+  if (!paginatedData || !paginatedData.results || paginatedData.results.length === 0) {
+    container.innerHTML = '<p style="color: var(--muted); font-size: 1.1rem; width: 100%; text-align: center;">За вашим запитом фільмів не знайдено</p>';
     return;
   }
 
+  const movies = paginatedData.results;
   movies.forEach(movie => {
     const movieCardHTML = createMovieCard(movie, '');
     container.insertAdjacentHTML('beforeend', movieCardHTML);
@@ -104,22 +120,40 @@ function updatePagination(page, paginatedData) {
 }
 
 async function loadMovies(page = 1) {
-  const data = await fetchMovies(STATUS_TO_LOAD, page);
+  currentPage = page;
+  const container = document.getElementById('movies-grid-container');
+  if(container) container.style.opacity = '0.5';
+
+  const data = await fetchMovies();
+
   if (data) {
     renderMovies(data);
     updatePagination(page, data);
-    currentPage = page;
   }
+
+  if(container) container.style.opacity = '1';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   loadMovies(1);
 
-  document.getElementById('prev-page').addEventListener('click', () => {
-      loadMovies(currentPage - 1);
-  });
-  document.getElementById('next-page').addEventListener('click', () => {
-      loadMovies(currentPage + 1);
+  const prevBtn = document.getElementById('prev-page');
+  const nextBtn = document.getElementById('next-page');
+
+  if (prevBtn) prevBtn.addEventListener('click', () => loadMovies(currentPage - 1));
+  if (nextBtn) nextBtn.addEventListener('click', () => loadMovies(currentPage + 1));
+
+  const allFilters = document.querySelectorAll(
+      'input[name="filter_animation"], ' +
+      'input[name="filter_kids"], ' +
+      'input[name="filter_age"], ' +
+      'input[name="filter_genre"]'
+  );
+
+  allFilters.forEach(checkbox => {
+      checkbox.addEventListener('change', () => {
+          loadMovies(1);
+      });
   });
 });
 
