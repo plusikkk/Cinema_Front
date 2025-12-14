@@ -6,7 +6,6 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/all_movies.css' %}">
 
-
 <div class="content-wrapper">
 
   <div class="left-column">
@@ -37,27 +36,58 @@
       <h3>Обрати по категоріям</h3>
 
       <div class="filter-group">
-        <label><input type="checkbox" name="filter_type" value="animation"> Тільки мультфільми</label>
-        <label><input type="checkbox" name="filter_age" value="18"> До 18+</label>
-        <label><input type="checkbox" name="filter_age" value="16"> До 16+</label>
+        <label>
+            <input type="checkbox" name="filter_animation" value="true">
+            Мультфільми
+        </label>
+
+        <label>
+            <input type="checkbox" name="filter_age" value="18">
+            До 18+
+        </label>
+        <label>
+            <input type="checkbox" name="filter_age" value="16">
+            До 16+
+        </label>
       </div>
 
       <hr class="filter-divider">
 
       <div class="filter-group">
         <h4>Жанри</h4>
-        <label><input type="checkbox" name="filter_genre" value="drama"> Драма</label>
-        <label><input type="checkbox" name="filter_genre" value="horror"> Жахи</label>
-        <label><input type="checkbox" name="filter_genre" value="comedy"> Комедія</label>
-        <label><input type="checkbox" name="filter_genre" value="action"> Бойовик</label>
-        <label><input type="checkbox" name="filter_genre" value="fantasy"> Фантастика</label>
-        <label><input type="checkbox" name="filter_genre" value="thriller"> Трилер</label>
+        <label>
+            <input type="checkbox" name="filter_genre" value="Драма">
+            Драма
+        </label>
+        <label>
+            <input type="checkbox" name="filter_genre" value="Жахи">
+            Жахи
+        </label>
+        <label>
+            <input type="checkbox" name="filter_genre" value="Комедія">
+            Комедія
+        </label>
+        <label>
+            <input type="checkbox" name="filter_genre" value="Бойовик">
+            Бойовик
+        </label>
+        <label>
+            <input type="checkbox" name="filter_genre" value="Фантастика">
+            Фантастика
+        </label>
+        <label>
+            <input type="checkbox" name="filter_genre" value="Трилер">
+            Трилер
+        </label>
       </div>
 
       <hr class="filter-divider">
 
        <div class="filter-group">
-          <label><input type="checkbox" name="filter_misc" value="for_kids"> Для дітей</label>
+          <label>
+              <input type="checkbox" name="filter_kids" value="true">
+              Для дітей
+          </label>
        </div>
     </div>
   </aside>
@@ -65,7 +95,7 @@
 </div>
 
 {{ status_to_load|json_script:"status_to_load" }}
-
+<script src="{% static 'js/card_badges.js' %}"></script>
 <script src="{% static 'js/all_movies.js' %}"></script>
 <script src="{% static 'js/search.js' %}"></script>
 {% endblock %}
