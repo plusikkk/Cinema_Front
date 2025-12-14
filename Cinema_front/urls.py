@@ -19,6 +19,7 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('about-us/', views.about_us, name='about_us'),
     path('session/<int:session_id>/seats/', views.seats, name='seats'),
+    path('faq/', views.faq, name='faq'),
 ]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 

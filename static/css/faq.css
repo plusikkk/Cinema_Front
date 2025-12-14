@@ -1,0 +1,144 @@
+:root {
+    --bg-dark: #0e0e0f;
+    --text-grey: #b0b0b0;
+    --pink: #ff3c8e;
+    --card-bg: rgba(255, 255, 255, 0.03);
+    --border-color: rgba(255, 255, 255, 0.1);
+}
+
+.faq-page {
+    background-color: var(--bg-dark);
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    padding: 100px 20px;
+}
+
+.faq-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* ЗАГОЛОВОК */
+.faq-header {
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.faq-header h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 4rem;
+    font-weight: 900;
+    color: #fff;
+    margin: 0;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 0px var(--pink);
+}
+
+.faq-header .subtitle {
+    color: var(--text-grey);
+    font-size: 1.2rem;
+    margin-top: 10px;
+}
+
+/* СІТКА ПИТАНЬ */
+.faq-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+.section-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5rem;
+    color: #fff;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.section-title span {
+    color: var(--pink);
+    font-size: 1rem;
+    font-weight: 800;
+    border: 1px solid var(--pink);
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+/* АКОРДЕОН (DETAILS/SUMMARY) */
+.faq-item {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    margin-bottom: 15px;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+    border-color: var(--pink);
+    box-shadow: 0 0 20px rgba(255, 60, 142, 0.1);
+}
+
+.faq-item[open] {
+    background: rgba(255, 60, 142, 0.05);
+    border-color: var(--pink);
+}
+
+summary {
+    padding: 25px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    list-style: none; /* Прибирає стандартний трикутник */
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Кастомний хрестик/плюсик */
+summary::after {
+    content: '+';
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 2rem;
+    color: var(--pink);
+    line-height: 0.5;
+    transition: transform 0.3s ease;
+}
+
+details[open] summary::after {
+    transform: rotate(45deg); /* Перетворює плюс на хрестик */
+}
+
+/* Прибирає стандартний маркер у Safari/Chrome */
+summary::-webkit-details-marker {
+    display: none;
+}
+
+.faq-answer {
+    padding: 0 25px 25px 25px;
+    color: var(--text-grey);
+    line-height: 1.6;
+    font-size: 1rem;
+    animation: fadeIn 0.4s ease forwards;
+}
+
+.faq-answer p { margin: 0; }
+.faq-answer strong { color: #fff; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* МОБІЛЬНА ВЕРСІЯ */
+@media (max-width: 768px) {
+    .faq-header h1 { font-size: 3rem; }
+    .faq-item { margin-bottom: 10px; }
+    summary { padding: 20px; font-size: 1rem; }
+}
