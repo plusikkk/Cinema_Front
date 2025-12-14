@@ -118,11 +118,6 @@ async function loadMovieDetails(id) {
             ).join('');
         }
 
-        // Кнопка Купити
-        document.getElementById('buyBtn').onclick = () => {
-            document.querySelector('.schedule-column').scrollIntoView({behavior: 'smooth'});
-        };
-
     } catch (error) {
         console.error("Помилка завантаження деталей фільму:", error);
         displayError(error.message || "Сталася невідома помишка при завантаженні даних фільму.");
@@ -273,7 +268,7 @@ function renderSessionsForDate(dateKey) {
             btn.className = 'time-slot';
             btn.innerHTML = `<span class="ts-time">${timeStr}</span><span class="ts-format">${formatText}</span>`;
 
-            btn.onclick = () => { window.location.href = `/booking/${session.id}/`; };
+            btn.onclick = () => { window.location.href = `/session/${session.id}/seats/`; };
             timesGrid.appendChild(btn);
 
             if (session.movie && session.movie.badges && Array.isArray(session.movie.badges)) {

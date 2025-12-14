@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block content %}
+{% load static %}
+    <div class="booking-container">
+
+        <div class="screen-reference">ЕКРАН</div> <div id="seats-container" class="seats-area"></div>
+        <div class="booking-summary">
+            <div class="bonus-wrapper">
+                <input type="checkbox" id="use-bonuses">
+                <label for="use-bonuses">
+                    Списати бонуси (Доступно: <span id="user-bonuses-display">Loading...</span>)
+                </label>
+            </div>
+
+            <button id="pay-btn" class="pay-button">Оплатити</button>
+        </div>
+    </div>
+
+    <div id="liqpay-form-container" style="display:none;"></div>
+
+    <script>
+        const sessionId = "{{ session_id }}";
+    </script>
+
+    <script src="{% static 'js/seatsMap.js' %}?v=2.0"></script>
+
+{% endblock %}
+
+
