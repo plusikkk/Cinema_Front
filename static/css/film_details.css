@@ -312,9 +312,10 @@
     border-radius: 12px;
     padding: 20px;
     color: var(--accent);
-    min-height: 400px;
     display: flex;
     flex-direction: column;
+    min-height: auto;
+    max-height: 80vh;
     position: relative;
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: var(--shadow);
@@ -422,7 +423,7 @@
     flex-direction: column;
     gap: 20px;
     overflow-y: auto;
-    max-height: 400px;
+    max-height: 550px;
     padding-right: 5px;
 }
 
@@ -462,17 +463,17 @@
 
 .time-slot {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     background: transparent;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
-    padding: 8px 16px;
+    padding: 10px 16px;
     transition: all 0.3s ease;
     flex: 0 0 auto;
-    min-width: 80px;
+    min-width: 85px;
+    height: 44px;
 }
 
 .time-slot:hover {
@@ -487,6 +488,7 @@
     font-weight: 800;
     color: var(--pink);
     white-space: nowrap;
+    line-height: 1;
 }
 
 .ts-format {
@@ -499,6 +501,7 @@
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
+    display: none;
 }
 
 /* БЕЙДЖІ КІНОТЕАТРУ (НИЖНІЙ БЛОК) */
@@ -510,6 +513,8 @@
     flex-wrap: wrap;
     gap: 10px;
     position: relative;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .f-badge {
@@ -526,6 +531,7 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
     cursor: pointer;
     transition: all 0.2s ease;
+    white-space: nowrap;
 }
 
 .f-badge:hover {
