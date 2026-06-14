@@ -96,15 +96,18 @@
                     </div>
 
                     <div id="tickets" class="tab-body active">
-                        <div class="empty-state">
-                            <div class="state-icon">
-                                <i class="fa-solid fa-clapperboard"></i>
+                        <div id="tickets-list-container" class="tickets-list">
+                            <div class="empty-state" id="empty-tickets-state">
+                                <div class="state-icon">
+                                    <i class="fa-solid fa-clapperboard"></i>
+                                </div>
+                                <h3>Історія порожня</h3>
+                                <p>Ви ще не придбали квитків. Оберіть фільм вже зараз!</p>
+                                <a href="{% url 'movies_now_playing' %}" class="btn-action">
+                                    Перейти до афіші
+                                </a>
                             </div>
-                            <h3>Історія порожня</h3>
-                            <p>Ви ще не придбали квитків. Оберіть фільм вже зараз!</p>
-                            <a href="{% url 'movies_now_playing' %}" class="btn-action">
-                                Перейти до афіші
-                            </a>
+
                         </div>
                     </div>
 
@@ -259,6 +262,3 @@
 </div>
 <script src="{% static 'js/profile.js' %}"></script>
 {% endblock %}
-
-
-

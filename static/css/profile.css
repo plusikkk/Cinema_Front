@@ -1091,4 +1091,111 @@ input:-webkit-autofill:active {
     color: #ff4d4d;
 }
 
+/* СТИЛІ КВИТКІВ */
+.tickets-list {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
 
+.ticket-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px;
+    background: var(--input-bg);
+    border-radius: 14px;
+    border-left: 5px solid var(--pink);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.ticket-info {
+    flex-grow: 1;
+}
+
+.ticket-movie {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.ticket-details {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.ticket-details p {
+    margin: 5px 0;
+}
+
+.ticket-details i {
+    color: var(--pink);
+    margin-right: 5px;
+    width: 15px; /* Для вирівнювання іконок */
+    text-align: center;
+}
+
+.ticket-date {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+    margin-left: 20px;
+    min-width: 100px;
+}
+
+.ticket-time {
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--pink);
+    line-height: 1;
+}
+
+.ticket-day {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-top: 5px;
+    text-transform: uppercase;
+}
+
+.ticket-status {
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 5px 10px;
+    border-radius: 8px;
+    margin-top: 5px;
+}
+
+.status-paid {
+    background: rgba(0, 255, 136, 0.1);
+    color: #00ff88;
+}
+
+.status-refunded {
+    background: rgba(255, 215, 0, 0.1);
+    color: #ffd700;
+}
+
+.ticket-cancelled {
+    background: rgba(255, 77, 77, 0.1);
+    color: #ff4d4d;
+}
+
+@media (max-width: 600px) {
+    .ticket-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+    }
+    .ticket-date {
+        align-items: flex-start;
+        text-align: left;
+        margin-left: 0;
+        margin-top: 15px;
+    }
+    .ticket-time {
+        font-size: 1.2rem;
+    }
+}
