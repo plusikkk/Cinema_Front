@@ -1,4 +1,5 @@
 const API_PROFILE_URL = "http://127.0.0.1:8001/api/auth/userprofile/";
+const API_TICKETS_URL = "http://127.0.0.1:8001/api/auth/tickets/"; // НОВИЙ URL для квитків
 
 document.addEventListener("DOMContentLoaded", function() {
     const token = localStorage.getItem('access_token');
@@ -207,6 +208,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     void icon.offsetWidth;
                     icon.classList.add('icon-spin');
                 }
+            } else if (targetId === 'tickets') {
+                 loadUserTickets(); // Завантаження квитків при активації таба
             }
         });
     });
@@ -406,6 +409,86 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         });
     }
+
+    // =========================================================================
+    // ФУНКЦІЯ ЗАВАНТАЖЕННЯ ТА ВІДОБРАЖЕННЯ КВИТКІВ
+    // =========================================================================
+
+    function loadUserTickets() {
+        const ticketsContainer = document.getElementById('tickets-list-container');
+        const emptyState = document.getElementById('empty-tickets-state');
+        ticketsContainer.innerHTML = ''; // Очистити перед завантаженням, щоб уникнути дублювання
+
+        fetch(API_TICKETS_URL, {
+            method: "GET",
+            headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" }
+        })
+        .then(response => {
+            if (response.status === 401) {
+                // Якщо токен недійсний, перенаправляємо
+                localStorage.removeItem('access_token');
+                window.location.href = "/";
+                return [];
+            }
+            return response.json();
+        })
+        .then(tickets => {
+            if (tickets.length === 0) {
+                if (emptyState) emptyState.style.display = 'block';
+                return;
+            }
+            if (emptyState) emptyState.style.display = 'none';
+
+            tickets.forEach(ticket => {
+                const isCancelled = ticket.is_cancelled;
+                const statusClass = isCancelled ? 'ticket-cancelled' :
+                                  (ticket.order_status === 'Paid' ? 'status-paid' : 'status-refunded');
+
+                const ticketDate = new Date(ticket.start_time);
+                const time = ticketDate.toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' });
+                // Формат дати: 15 груд
+                const date = ticketDate.toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' }).replace('.', '');
+
+                // Визначення назви статусу
+                let statusText = ticket.order_status;
+                if (isCancelled) {
+                    statusText = 'Скасовано';
+                } else if (ticket.order_status === 'Paid') {
+                    statusText = 'Оплачено';
+                } else if (ticket.order_status === 'Refunded') {
+                    statusText = 'Повернено';
+                }
+
+
+                const cardHtml = `
+                    <div class="ticket-card">
+                        <div class="ticket-info">
+                            <div class="ticket-movie">${ticket.movie_title}</div>
+                            <div class="ticket-details">
+                                <p><i class="fa-solid fa-location-dot"></i> ${ticket.cinema_name}, ${ticket.hall_name}</p>
+                                <p><i class="fa-solid fa-chair"></i> ${ticket.seat_display} | ${ticket.price} грн</p>
+                            </div>
+                        </div>
+                        <div class="ticket-date">
+                            <span class="ticket-time">${time}</span>
+                            <span class="ticket-day">${date}</span>
+                            <span class="ticket-status ${statusClass}">
+                                ${statusText}
+                            </span>
+                        </div>
+                    </div>
+                `;
+                ticketsContainer.insertAdjacentHTML('beforeend', cardHtml);
+            });
+        })
+        .catch(err => {
+            console.error("Помилка завантаження квитків:", err);
+            if (emptyState) emptyState.style.display = 'block';
+        });
+    }
+
+    // Завантаження квитків при початковому завантаженні сторінки (якщо таб 'tickets' активний)
+    if (document.querySelector('.tab-link.active').getAttribute('data-tab') === 'tickets') {
+         loadUserTickets();
+    }
 });
-
-
